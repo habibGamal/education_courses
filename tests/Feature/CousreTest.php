@@ -24,7 +24,7 @@ class CousreTest extends TestCase
         $this->actingAs($user);
     }
 
-    public function testIndex()
+    public function test_index()
     {
         Course::factory()->count(3)->create();
 
@@ -37,7 +37,7 @@ class CousreTest extends TestCase
         );
     }
 
-    public function testUpdateBlocksOrder()
+    public function test_update_blocks_order()
     {
         $blocks = Block::factory()->count(3)->create();
 
@@ -57,7 +57,7 @@ class CousreTest extends TestCase
         }
     }
 
-    public function testCreate()
+    public function test_create()
     {
         $response = $this->get('/courses/create');
 
@@ -67,7 +67,7 @@ class CousreTest extends TestCase
         );
     }
 
-    public function testEdit()
+    public function teset_edit()
     {
         $course = Course::factory()->create();
 
@@ -95,7 +95,7 @@ class CousreTest extends TestCase
         );
     }
 
-    public function testUpdate()
+    public function test_update()
     {
         Storage::fake('thumbnails');
         $course = Course::factory()->create();
@@ -130,7 +130,7 @@ class CousreTest extends TestCase
         ]);
     }
 
-    public function testStore()
+    public function test_store()
     {
         Storage::fake('thumbnails');
         $thumbnail = UploadedFile::fake()->image('thumbnail.jpg');
@@ -148,8 +148,6 @@ class CousreTest extends TestCase
         ];
 
         $response = $this->post('/courses', $courseData);
-        // print the recent add course
-        print_r(Course::all()->last());
         $response->assertRedirect(route('courses.index'));
         $this->assertDatabaseHas('courses', [
             'title' => 'Test Course',
@@ -165,7 +163,7 @@ class CousreTest extends TestCase
         ]);
     }
 
-    public function testDestroy()
+    public function test_destroy()
     {
         $course = Course::factory()->create();
 

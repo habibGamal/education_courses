@@ -30,6 +30,9 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
+
+        $this->assertDatabaseCount('carts', 1);
+
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 }

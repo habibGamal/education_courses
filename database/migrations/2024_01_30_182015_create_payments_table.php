@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('payment_status');
             $table->string('payment_amount');
             $table->string('phone_number');
+            $table->text('screenshot');
             $table->timestamps();
         });
     }

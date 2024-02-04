@@ -51,6 +51,8 @@ class RegisteredUserController extends Controller
             'role' => UserRole::User,
         ]);
 
+        $user->cart()->create();
+
         event(new Registered($user));
 
         Auth::login($user);

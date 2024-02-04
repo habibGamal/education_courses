@@ -15,4 +15,10 @@ class Cart extends Model
     {
         return $this->hasMany(CartItem::class);
     }
+
+    // total attribute
+    public function getTotalAttribute()
+    {
+        return $this->cartItems->sum('course.price');
+    }
 }

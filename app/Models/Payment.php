@@ -18,6 +18,7 @@ class Payment extends Model
         'payment_status',
         'payment_amount',
         'phone_number',
+        'screenshot',
     ];
 
     /**

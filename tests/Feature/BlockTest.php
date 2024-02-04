@@ -53,7 +53,7 @@ class BlockTest extends TestCase
         $this->assertDatabaseHas('blocks', ['title' => $updatedBlock->title]);
     }
 
-    public function test_updateResourcesOrder()
+    public function test_update_resources_order()
     {
         $resources = Resource::factory()->count(3)->create();
 

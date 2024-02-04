@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\BlockController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\UserOrderController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,6 +38,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // cart routes
+    Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
+    Route::post('/cart/add-item', [CartController::class, 'addCartItem'])->name('cart.addCartItem');
+    Route::post('/cart/remove-item', [CartController::class, 'removeCartItem'])->name('cart.removeCartItem');
+    Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+    Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    // orders routes
+    Route::get('/orders', [UserOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{orderId}', [UserOrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/place-order', [UserOrderController::class, 'placeOrder'])->name('orders.placeOrder');
+
 });
 
 // Admin Routes
