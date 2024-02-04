@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\BlockController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResourceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,4 +38,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+// Admin Routes
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('courses', CourseController::class);
+    Route::post('courses/update-blocks-order', [CourseController::class, 'updateBlocksOrder'])->name('courses.updateBlocksOrder');
+    Route::resource('blocks', BlockController::class)->except(['index', 'create', 'show']);
+    Route::post('blocks/update-resources-order', [BlockController::class, 'updateResourcesOrder'])->name('blocks.updateResourcesOrder');
+    Route::resource('resources', ResourceController::class)->except(['index', 'create', 'show']);
+});
+
+
+require __DIR__ . '/auth.php';
