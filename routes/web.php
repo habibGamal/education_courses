@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CourseController;
@@ -59,6 +60,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('blocks', BlockController::class)->except(['index', 'create', 'show']);
     Route::post('blocks/update-resources-order', [BlockController::class, 'updateResourcesOrder'])->name('blocks.updateResourcesOrder');
     Route::resource('resources', ResourceController::class)->except(['index', 'create', 'show']);
+    // orders routes
+    Route::prefix('admin')->group(function () {
+        Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+        Route::get('/orders/pending', [AdminOrderController::class, 'pendingOrders'])->name('admin.orders.pending');
+        Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+        Route::post('/orders/{order}/accept-payment', [AdminOrderController::class, 'acceptPayment'])->name('admin.orders.acceptPayment');
+    });
+
 });
 
 

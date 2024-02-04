@@ -35,16 +35,16 @@ class AdminOrderController extends Controller
 
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::with(['user','payment'])->get();
 
-        return inertia()->render('Admin/Orders/All', [
+        return inertia()->render('Admin/Orders/Index', [
             'orders' => $orders,
         ]);
     }
 
     public function pendingOrders()
     {
-        $orders = Order::whereHas('payment', function (Builder $query) {
+        $orders = Order::with(['user','payment'])->whereHas('payment', function (Builder $query) {
             $query->where('payment_status', PaymentStatus::Pending);
         })->get();
 

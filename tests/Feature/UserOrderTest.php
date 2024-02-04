@@ -41,7 +41,7 @@ class UserOrderTest extends TestCase
             'phone_number' => '0123456789',
             'screenshot' => $screenshot,
         ]);
-        $response->assertRedirect(route('orders.show', ['orderId' => 1]));
+        $response->assertRedirect(route('orders.show', Order::latest()->first()->id));
         $this->assertDatabaseHas('orders', ['user_id' => $this->user->id]);
         $this->assertDatabaseHas('order_items', ['course_id' => $course->id]);
         $this->assertDatabaseCount('cart_items', 0);
