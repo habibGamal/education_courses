@@ -23,7 +23,7 @@ class ResourceController extends Controller
             'sort_order' => $count,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', ['Resource created successfully','تم إنشاء المحتوى بنجاح']);
     }
 
     public function edit(Resource $resource)
@@ -41,13 +41,13 @@ class ResourceController extends Controller
 
         $resource->update($request->all());
 
-        return redirect()->back();
+        return redirect()->back()->with('success', ['Resource updated successfully','تم تحديث المحتوى بنجاح']);
     }
 
     public function destroy(Resource $resource)
     {
         $resource->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', ['Resource deleted successfully','تم حذف المحتوى بنجاح']);
     }
 }

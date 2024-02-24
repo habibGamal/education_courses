@@ -5,6 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Enums\UserRole;
+use App\Models\Block;
+use App\Models\Course;
+use App\Models\Resource;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -30,5 +33,14 @@ class DatabaseSeeder extends Seeder
             'city' => '__',
             'phone' => '1234567890',
         ]);
+
+        Course::factory(10)->create();
+        Block::factory(10)->create([
+            'course_id' => Course::all()->random()->id,
+        ]);
+        Resource::factory(10)->create([
+            'block_id' => Block::all()->random()->id,
+        ]);
+
     }
 }

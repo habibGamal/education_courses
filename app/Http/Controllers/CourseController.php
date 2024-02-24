@@ -12,7 +12,7 @@ class CourseController extends Controller
     public function index()
     {
         return inertia()->render('Admin/Courses/Index', [
-            'courses' => Course::all(),
+            'courses' => Course::orderBy('id', 'desc')->get(),
         ]);
     }
 
@@ -37,7 +37,7 @@ class CourseController extends Controller
 
         Course::create([
             'title' => $request->title,
-            'thumbnail' => $request->thumbnail->store('thumbnails'),
+            'thumbnail' => $request->thumbnail->store('public/thumbnails'),
             'created_by' => $request->created_by,
             'total_enrolled' => 0,
             'description' => $request->description,
@@ -50,11 +50,14 @@ class CourseController extends Controller
             'promo_video_link' => $request->promo_video_link,
         ]);
 
-        return redirect()->route('courses.index');
+        return redirect()->route('courses.index')->with('success', ['Course created successfully', 'تم إنشاء الكورس بنجاح']);
     }
 
     public function edit(Course $course)
     {
+        $course->load(['blocks' => function ($query) {
+            $query->orderBy('sort_order', 'desc');
+        }]);
         return inertia()->render('Admin/Courses/Edit', [
             'course' => $course,
         ]);
@@ -112,6 +115,6 @@ class CourseController extends Controller
     {
         $course->delete();
 
-        return redirect()->route('courses.index');
+        return redirect()->route('courses.index')->with('success', ['Course deleted successfully', 'تم حذف الكورس بنجاح']);
     }
 }

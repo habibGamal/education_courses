@@ -24,12 +24,16 @@ class BlockController extends Controller
             'sort_order' => $count,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', ['Block created successfully', 'تم إنشاء البلوك بنجاح']);
     }
 
     public function edit(Block $block)
     {
+        $block->load(['resources' => function ($query) {
+            $query->orderBy('sort_order', 'desc');
+        }, 'course:id,title']);
         return inertia()->render('Admin/Blocks/Edit', [
+            'courseTitle' => $block->course->title,
             'block' => $block,
         ]);
     }
@@ -42,7 +46,7 @@ class BlockController extends Controller
 
         $block->update($request->all());
 
-        return redirect()->back();
+        return redirect()->back()->with('success', ['Block updated successfully', 'تم تحديث البلوك بنجاح']);
     }
 
     public function updateResourcesOrder(Request $request)
@@ -58,13 +62,13 @@ class BlockController extends Controller
             Resource::find($resource['id'])->update(['sort_order' => $resource['sort_order']]);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success', ['Resources order updated successfully', 'تم تحديث ترتيب المحتوى بنجاح']);
     }
 
     public function destroy(Block $block)
     {
         $block->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', ['Block deleted successfully', 'تم حذف البلوك بنجاح']);
     }
 }

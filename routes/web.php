@@ -49,25 +49,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', [UserOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{orderId}', [UserOrderController::class, 'show'])->name('orders.show');
     Route::post('/orders/place-order', [UserOrderController::class, 'placeOrder'])->name('orders.placeOrder');
-
 });
 
 // Admin Routes
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::resource('courses', CourseController::class);
-    Route::post('courses/update-blocks-order', [CourseController::class, 'updateBlocksOrder'])->name('courses.updateBlocksOrder');
-    Route::resource('blocks', BlockController::class)->except(['index', 'create', 'show']);
-    Route::post('blocks/update-resources-order', [BlockController::class, 'updateResourcesOrder'])->name('blocks.updateResourcesOrder');
-    Route::resource('resources', ResourceController::class)->except(['index', 'create', 'show']);
-    // orders routes
-    Route::prefix('admin')->group(function () {
-        Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
-        Route::get('/orders/pending', [AdminOrderController::class, 'pendingOrders'])->name('admin.orders.pending');
-        Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
-        Route::post('/orders/{order}/accept-payment', [AdminOrderController::class, 'acceptPayment'])->name('admin.orders.acceptPayment');
+    Route::get('/file-manager',function(){
+        return view('demo');
     });
-
+    Route::prefix('admin')->group(function () {
+        Route::resource('courses', CourseController::class);
+        Route::post('courses/update-blocks-order', [CourseController::class, 'updateBlocksOrder'])->name('courses.updateBlocksOrder');
+        Route::resource('blocks', BlockController::class)->except(['index', 'create', 'show']);
+        Route::post('blocks/update-resources-order', [BlockController::class, 'updateResourcesOrder'])->name('blocks.updateResourcesOrder');
+        Route::resource('resources', ResourceController::class)->except(['index', 'create', 'show']);
+        // orders routes
+        Route::name('admin.')->group(function () {
+            Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+            Route::get('/orders/pending', [AdminOrderController::class, 'pendingOrders'])->name('orders.pending');
+            Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+            Route::post('/orders/{order}/accept-payment', [AdminOrderController::class, 'acceptPayment'])->name('orders.acceptPayment');
+        });
+    });
 });
 
 
