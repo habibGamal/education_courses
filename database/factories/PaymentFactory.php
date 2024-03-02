@@ -20,8 +20,10 @@ class PaymentFactory extends Factory
             'payment_status' => 'pending',
             'payment_method' => 'paypal',
             'payment_amount' => 100,
+            'total'=>500,
+            'required_amount'=>100,
             'phone_number' => '0123456789',
-            'screenshot' => 'payments/screenshot.jpg',
+            'screenshot' => $this->faker->imageUrl(),
         ];
     }
 }

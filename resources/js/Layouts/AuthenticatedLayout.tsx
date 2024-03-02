@@ -1,28 +1,20 @@
-import { useState, PropsWithChildren, ReactNode, useEffect } from "react";
-import { Link, usePage } from "@inertiajs/react";
-import { User } from "@/types";
-import type { MenuProps } from "antd";
-import {
-    Breadcrumb,
-    Button,
-    Divider,
-    Dropdown,
-    Layout,
-    Menu,
-    Space,
-    message,
-    theme,
-} from "antd";
-import { useAppStatus, useTranslate } from "./Config";
-import { DownOutlined, LogoutOutlined } from "@ant-design/icons";
-import AdminSider from "@/Components/AdminSider";
 import AdminHeader from "@/Components/AdminHeader";
+import AdminSider from "@/Components/AdminSider";
 import useStatus from "@/Hooks/useStatus";
+import { Layout, theme } from "antd";
+import { PropsWithChildren, ReactNode, useState } from "react";
+import { createContext } from "react";
 
 const { Header, Content, Footer, Sider } = Layout;
 
+type LayoutCtx = {
+    header: ReactNode;
+    setHeader: React.Dispatch<React.SetStateAction<ReactNode>>;
+} | null;
+export const authLayoutContext = createContext<LayoutCtx>(null);
+
 export default function Authenticated({
-    header,
+    // header,
     children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
     const {
@@ -30,27 +22,31 @@ export default function Authenticated({
     } = theme.useToken();
 
     useStatus();
+
+    const [header, setHeader] = useState<ReactNode>(null);
     return (
-        <Layout style={{ minHeight: "100vh" }}>
-            <AdminSider />
-            <Layout>
-                <AdminHeader header={header} />
-                <Content className="m-4">
-                    <div
-                        style={{
-                            padding: 24,
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
-                        {children}
-                    </div>
-                </Content>
-                <Footer style={{ textAlign: "center" }}>
-                    KM Retouch ©{new Date().getFullYear()} Created by Eng. Habib
-                    Gamal
-                </Footer>
+        <authLayoutContext.Provider value={{ header, setHeader }}>
+            <Layout style={{ minHeight: "100vh" }}>
+                <AdminSider />
+                <Layout>
+                    <AdminHeader header={header} />
+                    <Content className="m-4">
+                        <div
+                            style={{
+                                padding: 24,
+                                background: colorBgContainer,
+                                borderRadius: borderRadiusLG,
+                            }}
+                        >
+                            {children}
+                        </div>
+                    </Content>
+                    <Footer style={{ textAlign: "center" }}>
+                        KM Retouch ©{new Date().getFullYear()} Created by Eng.
+                        Habib Gamal
+                    </Footer>
+                </Layout>
             </Layout>
-        </Layout>
+        </authLayoutContext.Provider>
     );
 }

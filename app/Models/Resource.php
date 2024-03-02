@@ -16,6 +16,7 @@ class Resource extends Model
     protected $fillable = [
         'title',
         'block_id',
+        'type',
         'video_url',
         'file_url',
         'sort_order',

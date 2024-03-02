@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('payment_method');
             $table->string('payment_status');
-            $table->string('payment_amount');
+            $table->float('payment_amount');
+            $table->float('total');
+            $table->float('required_amount');
             $table->string('phone_number');
             $table->text('screenshot');
+            $table->foreignId('coupon_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

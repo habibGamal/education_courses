@@ -1,6 +1,11 @@
 import { useTranslate } from "@/Layouts/Config";
 import React, { useState } from "react";
-import { VideoCameraOutlined } from "@ant-design/icons";
+import {
+    VideoCameraOutlined,
+    FolderOpenOutlined,
+    ShoppingOutlined,
+    UserOutlined
+} from "@ant-design/icons";
 
 import { Layout, Menu, MenuProps } from "antd";
 import { Link } from "@inertiajs/react";
@@ -27,9 +32,51 @@ export default function AdminSider() {
     const t = useTranslate();
     const items: MenuItem[] = [
         getItem(
-            <Link href={route('courses.index')}>{t("Courses", "الكورسات")}</Link>,
+            <Link href={route("courses.index")}>
+                {t("Courses", "الكورسات")}
+            </Link>,
             "courses",
             <VideoCameraOutlined />
+        ),
+        getItem(t("Orders", "الاشتراكات"), "orders", <ShoppingOutlined />, [
+            getItem(
+                <Link href={route("admin.orders.index")}>
+                    {t("All Orders", "جميع الاشتراكات")}
+                </Link>,
+                "all_orders"
+            ),
+            getItem(
+                <Link href={route("admin.orders.index", { status: "pending" })}>
+                    {t("Pending", "المعلقة")}
+                </Link>,
+                "pending_orders"
+            ),
+            getItem(
+                <Link href={route("admin.orders.index", { status: "paid" })}>
+                    {t("Approved", "الموافق عليها")}
+                </Link>,
+                "approved_orders"
+            ),
+            getItem(
+                <Link href={route("admin.orders.index", { status: "failed" })}>
+                    {t("Rejected", "المرفوضة")}
+                </Link>,
+                "rejected_orders"
+            ),
+        ]),
+        getItem(
+            <Link href={route("admin.students.index")}>
+                {t("Students", "الطلاب")}
+            </Link>,
+            "students",
+            <UserOutlined />
+        ),
+        getItem(
+            <Link href={route("file-manager")}>
+                {t("File Manager", "مدير الملفات")}
+            </Link>,
+            "file_manager",
+            <FolderOpenOutlined />
         ),
     ];
     return (

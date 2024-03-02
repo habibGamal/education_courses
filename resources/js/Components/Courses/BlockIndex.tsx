@@ -86,7 +86,6 @@ export default function BlockIndex({ course }: { course: Course }) {
                 className="float-end mb-4"
                 onClick={() => {
                     formModal.showModal();
-                    // router.get(route("courses.create"));
                 }}
             >
                 {t("Create New Block", "إنشاء بلوك جديد")}

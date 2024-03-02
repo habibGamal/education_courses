@@ -7,6 +7,7 @@ import { Head, router } from "@inertiajs/react";
 import { Course, PageProps } from "@/types";
 import { EditOutlined, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import imagePathResolver from "@/Helpers/imagePathResolver";
+import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
 
 type Props = {
     courses: Course[];
@@ -19,7 +20,7 @@ export default function Index({ courses }: Props) {
         thumbnail: imagePathResolver(course.thumbnail),
     }));
 
-    const {modal}= App.useApp();
+    const { modal } = App.useApp();
 
     const columns = [
         {
@@ -86,11 +87,11 @@ export default function Index({ courses }: Props) {
             ),
         },
     ];
-    console.log(courses);
+
+    useAdminHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
+
     return (
-        <AuthenticatedLayout
-            header={<HeaderTitle title={t("Courses", "الكورسات")} />}
-        >
+        <>
             <Head title="Courses" />
             <Button
                 type="primary"
@@ -108,6 +109,6 @@ export default function Index({ courses }: Props) {
                 columns={columns}
                 pagination={false}
             />
-        </AuthenticatedLayout>
+        </>
     );
 }

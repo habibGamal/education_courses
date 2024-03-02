@@ -5,16 +5,25 @@ import { createRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import Config from "./Layouts/Config";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) =>
-        resolvePageComponent(
+    resolve: async (name) => {
+        const res: any = await (resolvePageComponent(
             `./Pages/${name}.tsx`,
             import.meta.glob("./Pages/**/*.tsx")
-        ),
+        ) as any);
+        const page = res.default;
+        page.layout = (page: any) => <AuthenticatedLayout children={page} />;
+        return page;
+        // return resolvePageComponent(
+        //     `./Pages/${name}.tsx`,
+        //     import.meta.glob("./Pages/**/*.tsx")
+        // );
+    },
     setup({ el, App, props }) {
         const root = createRoot(el);
         root.render(

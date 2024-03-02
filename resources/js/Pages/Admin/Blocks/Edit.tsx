@@ -1,11 +1,22 @@
 import BlockForm from "@/Components/Courses/BlockForm";
 import ResourceIndex from "@/Components/Courses/ResourceIndex";
 import HeaderTitle from "@/Components/HeaderTitle";
+import IsolateFormStyle from "@/Components/IsolateFormStyle";
+import ResortingItems from "@/Components/ResortingItems";
+import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
+import useResort from "@/Hooks/useResort";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useTranslate } from "@/Layouts/Config";
 import { Block } from "@/types";
-import { router } from "@inertiajs/react";
-import { Collapse, CollapseProps, Form, Typography } from "antd";
+import { Link, router } from "@inertiajs/react";
+import {
+    Breadcrumb,
+    Collapse,
+    CollapseProps,
+    Form,
+    TreeDataNode,
+    Typography,
+} from "antd";
 
 export default function Edit({
     courseTitle,
@@ -21,19 +32,25 @@ export default function Edit({
     const onFinish = (values: any) => {
         router.put(route("blocks.update", { id: block.id }), values);
     };
+    const onResortResources = (data: TreeDataNode[]) => {
+        const resources = data.map((resource, index) => ({
+            id: resource.key,
+            sort_order: index,
+        }));
+        router.post(route("blocks.updateResourcesOrder"), {
+            resources: resources as any,
+        });
+    };
 
+    const [resourcesOrderData, setResourcesOrderData] = useResort(
+        block.resources!,
+        (data) =>
+            data.map((resource) => ({
+                key: resource.id,
+                title: resource.title,
+            }))
+    );
     const items: CollapseProps["items"] = [
-        {
-            key: "1",
-            label: t("Block Details", "تفاصيل البلوك"),
-            children: (
-                <BlockForm
-                    form={form}
-                    onFinish={onFinish}
-                    initialValues={block}
-                />
-            ),
-        },
         {
             key: "2",
             label: t("Block Content", "محتوى البلوك"),
@@ -42,17 +59,45 @@ export default function Edit({
         {
             key: "3",
             label: t("Block Content Ordering", "ترتيب محتوى البلوك"),
-            children: <p>Course Content Ordering</p>,
+            children: (
+                <ResortingItems
+                    gData={resourcesOrderData}
+                    onFinish={onResortResources}
+                    setGData={setResourcesOrderData}
+                />
+            ),
         },
     ];
+
+    useAdminHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
     return (
-        <AuthenticatedLayout
-            header={<HeaderTitle title={t("Courses", "الكورسات")} />}
-        >
-            <Typography.Title level={3} className="!mt-0 !mb-6">
-                {t("Edit Block", "تعديل البلوك")} {courseTitle} / {block.title}
-            </Typography.Title>
+        <>
+            <Breadcrumb
+                className="mb-6"
+                items={[
+                    {
+                        title: t("Edit Block", "تعديل البلوك"),
+                    },
+                    {
+                        title: (
+                            <Link href={route("courses.edit", block.course_id)}>
+                                {courseTitle}
+                            </Link>
+                        ),
+                    },
+                    {
+                        title: block.title,
+                    },
+                ]}
+            />
+            <IsolateFormStyle title={t("Edit Block Details", "تعديل البلوك")}>
+                <BlockForm
+                    form={form}
+                    onFinish={onFinish}
+                    initialValues={block}
+                />
+            </IsolateFormStyle>
             <Collapse items={items} defaultActiveKey={["2"]} />
-        </AuthenticatedLayout>
+        </>
     );
 }

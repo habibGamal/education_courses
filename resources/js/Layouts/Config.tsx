@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { App, ConfigProvider, message } from "antd";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
 type AppState = {
     lang: "ar" | "en";
@@ -35,6 +35,22 @@ export default function Config({ children }: { children: React.ReactNode }) {
         if (lang) {
             setAppState((state) => ({ ...state, lang }));
         }
+    }, []);
+
+    useEffect(() => {
+        // refetch the page when the user clicks the back button
+        const handlePopState = (event: PopStateEvent) => {
+            event.stopImmediatePropagation();
+            router.reload({
+                preserveState: false,
+                preserveScroll: false,
+                replace: true,
+            });
+        };
+        window.addEventListener("popstate", handlePopState);
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+        };
     }, []);
 
     useEffect(() => {

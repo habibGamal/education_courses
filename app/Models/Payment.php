@@ -17,6 +17,8 @@ class Payment extends Model
         'payment_method',
         'payment_status',
         'payment_amount',
+        'required_amount',
+        'coupon_id',
         'phone_number',
         'screenshot',
     ];
@@ -27,5 +29,9 @@ class Payment extends Model
     public function order()
     {
         return $this->hasOne(Order::class);
+    }
+
+    public function coupon(){
+        return $this->belongsTo(Coupon::class);
     }
 }

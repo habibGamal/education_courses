@@ -1,18 +1,15 @@
 import { useTranslate } from "@/Layouts/Config";
 import { Block } from "@/types";
-import { Button, Form, FormInstance, Input } from "antd";
+import { Button, Form, FormInstance, Input, Select } from "antd";
 
 export default function ResourceForm({
     form,
     onFinish,
-    initialValues,
 }: {
     form: FormInstance<any>;
     onFinish: (values: any) => void;
-    initialValues?: Block;
 }) {
     const t = useTranslate();
-    const mode = initialValues ? "edit" : "create";
     return (
         <Form
             name="create_resource"
@@ -21,7 +18,7 @@ export default function ResourceForm({
             onFinish={onFinish}
             form={form}
             labelAlign="left"
-            initialValues={initialValues}
+            initialValues={{ type: "video" }}
         >
             <Form.Item
                 label={t("Resource Name", "اسم المحتوى")}
@@ -30,11 +27,23 @@ export default function ResourceForm({
             >
                 <Input />
             </Form.Item>
+
+            <Form.Item
+                label={t("Resource type", "نوع المحتوى")}
+                name="type"
+                rules={[{ required: true }]}
+            >
+                <Select
+                    style={{ width: 120 }}
+                    options={[
+                        { value: "file", label: "File" },
+                        { value: "video", label: "Video" },
+                    ]}
+                />
+            </Form.Item>
             <Form.Item className="flex justify-center mb-0">
                 <Button type="primary" htmlType="submit">
-                    {mode === "edit"
-                        ? t("Update", "تعديل")
-                        : t("Create", "إنشاء")}
+                    {t("Create", "إنشاء")}
                 </Button>
             </Form.Item>
         </Form>

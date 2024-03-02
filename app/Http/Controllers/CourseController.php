@@ -56,7 +56,7 @@ class CourseController extends Controller
     public function edit(Course $course)
     {
         $course->load(['blocks' => function ($query) {
-            $query->orderBy('sort_order', 'desc');
+            $query->orderBy('sort_order', 'asc');
         }]);
         return inertia()->render('Admin/Courses/Edit', [
             'course' => $course,
@@ -90,7 +90,7 @@ class CourseController extends Controller
             'promo_video_link' => $request->promo_video_link,
         ]);
 
-        return redirect()->route('courses.index');
+        return redirect()->back()->with('success', ['Course updated successfully', 'تم تحديث الكورس بنجاح']);
     }
 
     public function updateBlocksOrder(Request $request, Course $course)
@@ -108,7 +108,7 @@ class CourseController extends Controller
             Block::where('id', $block['id'])->update(['sort_order' => $block['sort_order']]);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success', ['Blocks order updated successfully', 'تم تحديث ترتيب البلوكات بنجاح']);
     }
 
     public function destroy(Course $course)

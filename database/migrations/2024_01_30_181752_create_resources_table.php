@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('block_id')->constrained()->onDelete('cascade');
+            $table->string('type')->default('video');
             $table->string('video_url')->nullable();
             $table->string('file_url')->nullable();
             $table->integer('sort_order');

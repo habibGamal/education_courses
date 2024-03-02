@@ -30,7 +30,7 @@ class BlockController extends Controller
     public function edit(Block $block)
     {
         $block->load(['resources' => function ($query) {
-            $query->orderBy('sort_order', 'desc');
+            $query->orderBy('sort_order', 'asc');
         }, 'course:id,title']);
         return inertia()->render('Admin/Blocks/Edit', [
             'courseTitle' => $block->course->title,

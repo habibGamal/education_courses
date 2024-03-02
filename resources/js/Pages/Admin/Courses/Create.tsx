@@ -4,6 +4,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import HeaderTitle from "@/Components/HeaderTitle";
 import { router } from "@inertiajs/react";
 import CourseForm from "@/Components/Courses/CourseForm";
+import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
 
 export default function CreateCourse(props: any) {
     const t = useTranslate();
@@ -13,11 +14,11 @@ export default function CreateCourse(props: any) {
             values.thumbnail = values.thumbnail.file.originFileObj;
         router.post(route("courses.store"), values);
     };
+
+    useAdminHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
     return (
-        <AuthenticatedLayout
-            header={<HeaderTitle title={t("Courses", "الكورسات")} />}
-        >
+        <>
             <CourseForm form={form} onFinish={onFinish} />
-        </AuthenticatedLayout>
+        </>
     );
 }

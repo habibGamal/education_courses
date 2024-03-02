@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserOrderController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -54,9 +55,9 @@ Route::middleware('auth')->group(function () {
 // Admin Routes
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/file-manager',function(){
-        return view('demo');
-    });
+    Route::get('/file-manager', function () {
+        return view('file-manager');
+    })->name('file-manager');
     Route::prefix('admin')->group(function () {
         Route::resource('courses', CourseController::class);
         Route::post('courses/update-blocks-order', [CourseController::class, 'updateBlocksOrder'])->name('courses.updateBlocksOrder');
@@ -65,10 +66,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('resources', ResourceController::class)->except(['index', 'create', 'show']);
         // orders routes
         Route::name('admin.')->group(function () {
+            Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+            Route::get('/students/{user}', [StudentController::class, 'show'])->name('students.show');
+            Route::post('/students/{user}/block-from-course/{course}', [StudentController::class, 'blockUserFromCourse'])->name('students.blockFromCourse');
             Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
-            Route::get('/orders/pending', [AdminOrderController::class, 'pendingOrders'])->name('orders.pending');
+            Route::get('/orders/search', [AdminOrderController::class, 'search'])->name('orders.search');
             Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
             Route::post('/orders/{order}/accept-payment', [AdminOrderController::class, 'acceptPayment'])->name('orders.acceptPayment');
+            Route::post('/orders/{order}/reject-payment', [AdminOrderController::class, 'rejectPayment'])->name('orders.rejectPayment');
         });
     });
 });

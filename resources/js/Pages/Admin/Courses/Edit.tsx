@@ -1,16 +1,14 @@
 import BlockIndex from "@/Components/Courses/BlockIndex";
 import CourseForm from "@/Components/Courses/CourseForm";
 import HeaderTitle from "@/Components/HeaderTitle";
+import ResortingItems from "@/Components/ResortingItems";
+import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
+import useResort from "@/Hooks/useResort";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useTranslate } from "@/Layouts/Config";
 import { Course } from "@/types";
 import { router } from "@inertiajs/react";
-import {
-    Collapse,
-    CollapseProps,
-    Form,
-    Typography
-} from "antd";
+import { Breadcrumb, Collapse, CollapseProps, Form, TreeDataNode } from "antd";
 
 export default function Edit({ course }: { course: Course }) {
     const t = useTranslate();
@@ -25,6 +23,24 @@ export default function Edit({ course }: { course: Course }) {
         router.put(route("courses.update", { id: course.id }), values);
     };
 
+    const onResortBlocks = (data: TreeDataNode[]) => {
+        const blocks = data.map((block, index) => ({
+            id: block.key,
+            sort_order: index,
+        }));
+        router.post(route("courses.updateBlocksOrder"), {
+            blocks: blocks as any,
+        });
+    };
+
+    const [blocksOrderData, setBlocksOrderData] = useResort(
+        course.blocks!,
+        (data) =>
+            data.map((block) => ({
+                key: block.id,
+                title: block.title,
+            }))
+    );
     const items: CollapseProps["items"] = [
         {
             key: "1",
@@ -45,20 +61,31 @@ export default function Edit({ course }: { course: Course }) {
         {
             key: "3",
             label: t("Course Content Ordering", "ترتيب محتوى الكورس"),
-            children: <p>Course Content Ordering</p>,
+            children: (
+                <ResortingItems
+                    gData={blocksOrderData}
+                    onFinish={onResortBlocks}
+                    setGData={setBlocksOrderData}
+                />
+            ),
         },
     ];
+
+    useAdminHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
     return (
-        <AuthenticatedLayout
-            header={<HeaderTitle title={t("Courses", "الكورسات")} />}
-        >
-            <Typography.Title level={3} className="!mt-0 !mb-6">
-                {t("Edit Course", "تعديل الكورس")} {course.title}
-            </Typography.Title>
-            <Collapse
-                items={items}
-                defaultActiveKey={["2"]}
+        <>
+            <Breadcrumb
+                className="mb-6"
+                items={[
+                    {
+                        title: t("Edit Course", "تعديل الكورس"),
+                    },
+                    {
+                        title: course.title,
+                    },
+                ]}
             />
-        </AuthenticatedLayout>
+            <Collapse items={items} defaultActiveKey={["2"]} />
+        </>
     );
 }

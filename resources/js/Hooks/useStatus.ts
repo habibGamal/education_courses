@@ -9,7 +9,13 @@ const useStatus = () => {
     const { message } = App.useApp();
     useEffect(() => {
         const success = props.success as [string, string] | undefined;
-        if (success) message.success(t(success[0], success[1]));
+        const error = props.error as [string, string] | undefined;
+        if (error) {
+            message.error(t(error[0], error[1]));
+        }
+        if (success) {
+            message.success(t(success[0], success[1]));
+        }
     }, [props]);
 };
 
