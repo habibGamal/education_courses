@@ -56,6 +56,7 @@ export default function Config({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         localStorage.setItem("lang", appState.lang);
         document.documentElement.lang = appState.lang;
+        document.documentElement.dir = appState.lang === "ar" ? "rtl" : "ltr";
     }, [appState.lang]);
     return (
         <AppStatusContext.Provider value={[appState, setAppState]}>

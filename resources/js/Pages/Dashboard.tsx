@@ -3,13 +3,14 @@ import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import HeaderTitle from "@/Components/HeaderTitle";
 import { useTranslate } from "@/Layouts/Config";
+import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
 
 export default function Dashboard({ auth }: PageProps) {
     const t = useTranslate();
+
+    useAdminHeaderTitle(t("Dashboard", "لوحة التحكم"));
     return (
-        <AuthenticatedLayout
-            header={<HeaderTitle title={t("Dashboard", "لوحة التحكم")} />}
-        >
+        <>
             <Head title="Dashboard" />
 
             <div className="py-12">
@@ -21,6 +22,6 @@ export default function Dashboard({ auth }: PageProps) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </>
     );
 }

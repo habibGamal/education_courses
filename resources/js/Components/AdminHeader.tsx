@@ -3,10 +3,13 @@ import { Header } from "antd/es/layout/layout";
 import { DownOutlined, LogoutOutlined } from "@ant-design/icons";
 import React from "react";
 import { useAppStatus, useTranslate } from "@/Layouts/Config";
+import { router } from "@inertiajs/react";
 
-export default function AdminHeader({header}:{header:React.ReactNode}) {
+export default function AdminHeader({ header }: { header: React.ReactNode }) {
     const { changeLang } = useAppStatus();
     const t = useTranslate();
+    const logout = () => router.post(route("logout"));
+
     return (
         <Header className="bg-white h-auto  px-6 flex justify-between">
             <div className="my-4">{header}</div>
@@ -30,7 +33,7 @@ export default function AdminHeader({header}:{header:React.ReactNode}) {
                     </Button>
                 </Dropdown>
                 <Divider type="vertical" />
-                <Button danger icon={<LogoutOutlined />}>
+                <Button onClick={logout} danger icon={<LogoutOutlined />}>
                     {t("Logout", "تسجيل الخروج")}
                 </Button>
             </div>

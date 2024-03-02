@@ -17,7 +17,10 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.tsx")
         ) as any);
         const page = res.default;
-        page.layout = (page: any) => <AuthenticatedLayout children={page} />;
+        const noLayout = page.layout === undefined;
+        page.layout = noLayout
+            ? (page: any) => <AuthenticatedLayout children={page} />
+            : page.layout;
         return page;
         // return resolvePageComponent(
         //     `./Pages/${name}.tsx`,

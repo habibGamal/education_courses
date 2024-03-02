@@ -37,6 +37,17 @@ class DatabaseSeeder extends Seeder
             'city' => '__',
             'phone' => '1234567890',
         ]);
+        User::factory()->create([
+            'name' => 'User',
+            'email' => 'user@gmail.com',
+            'email_verified_at' => now(),
+            'password' =>  Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'role' => UserRole::User,
+            'country' => '_',
+            'city' => '__',
+            'phone' => '1234567890',
+        ]);
 
         Course::factory(2)->create();
         Block::factory(2)->create([

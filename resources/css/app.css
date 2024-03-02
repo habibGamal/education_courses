@@ -5,3 +5,23 @@
 body {
     margin: 0;
 }
+
+.bg-gradient {
+    background: radial-gradient(
+            circle at 100%,
+            #143d59 -67%,
+            #010101 80%,
+            #ffffff00 101%
+        ),
+        radial-gradient(
+            circle at -100%,
+            #010101 -30%,
+            #143d59 113%,
+            #ffffff00 101%
+        );
+    border-radius: 0 0 130% 130% / 0 0 50% 50%;
+}
+
+.hero-shadow {
+    box-shadow: 10px 10px 0 0 #FACC15;
+}
