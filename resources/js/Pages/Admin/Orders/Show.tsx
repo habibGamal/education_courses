@@ -14,7 +14,7 @@ import { Head, Link, router } from "@inertiajs/react";
 import { useTranslate } from "@/Layouts/Config";
 import { Order } from "@/types";
 import PaymentStatusBadge from "@/Components/PaymentStatusBadge";
-import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
+import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
 
 export default function Show({ order }: { order: Order }) {
     console.log(order);
@@ -132,7 +132,7 @@ export default function Show({ order }: { order: Order }) {
         },
     ];
 
-    useAdminHeaderTitle(<HeaderTitle title={t("Orders", "الاشتراكات")} />);
+    useHeaderTitle(<HeaderTitle title={t("Orders", "الاشتراكات")} />);
     return (
         <>
             <Head title="Orders" />

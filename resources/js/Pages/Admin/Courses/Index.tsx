@@ -7,7 +7,7 @@ import { Head, router } from "@inertiajs/react";
 import { Course, PageProps } from "@/types";
 import { EditOutlined, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import imagePathResolver from "@/Helpers/imagePathResolver";
-import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
+import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
 
 type Props = {
     courses: Course[];
@@ -88,7 +88,7 @@ export default function Index({ courses }: Props) {
         },
     ];
 
-    useAdminHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
+    useHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
 
     return (
         <>

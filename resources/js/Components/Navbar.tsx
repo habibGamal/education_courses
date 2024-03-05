@@ -7,37 +7,71 @@ import {
     RectangleStackIcon,
     ArrowRightEndOnRectangleIcon,
     Cog6ToothIcon,
+    ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
-
-const navigation = [
-    {
-        name: "Catalog",
-        icon: (
-            <RectangleStackIcon className="inline h-6 w-6" aria-hidden="true" />
-        ),
-        href: "#",
-        current: true,
-    },
-    {
-        name: "Login",
-        icon: (
-            <ArrowRightEndOnRectangleIcon
-                className="inline h-6 w-6"
-                aria-hidden="true"
-            />
-        ),
-        href: "#",
-        current: false,
-    },
-    // { name: "Projects", href: "#", current: false },
-    // { name: "Calendar", href: "#", current: false },
-];
+import { Link, usePage } from "@inertiajs/react";
+import { PageProps, User } from "@/types";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
+    const user = (usePage().props as PageProps<any>).auth.user as User | null;
+    const isStudent = user && user.role === "user";
+    const navigation = [
+        {
+            name: "Catalog",
+            icon: (
+                <RectangleStackIcon
+                    className="inline h-6 w-6"
+                    aria-hidden="true"
+                />
+            ),
+            href: route("browse.courses.index"),
+            current: true,
+        },
+    ];
+    if (user === null) {
+        navigation.push({
+            name: "Login",
+            icon: (
+                <ArrowRightEndOnRectangleIcon
+                    className="inline h-6 w-6"
+                    aria-hidden="true"
+                />
+            ),
+            href: route("login"),
+            current: false,
+        });
+    }
+    if (isStudent) {
+        navigation.push({
+            name: "Cart",
+            icon: (
+                <ShoppingCartIcon
+                    className="inline h-6 w-6"
+                    aria-hidden="true"
+                />
+            ),
+            href: route("cart.show"),
+            current: false,
+        });
+    }
+    const menu: {
+        name: string;
+        href: string;
+    }[] = [
+        {
+            name: "Dashboard",
+            href: isStudent ? route("user-dashboard") : route("dashboard"),
+        },
+        {
+            name: "Logout",
+            href: route("logout"),
+        },
+    ];
+
     return (
         <Disclosure as="nav" className="bg-transparent">
             {({ open }) => (
@@ -66,22 +100,24 @@ export default function Navbar() {
                             </div>
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
                                 <div className="flex flex-shrink-0 items-center">
-                                    <img
-                                        className="h-8 w-auto"
-                                        src="/assets/logo.png"
-                                        alt="Kero Mamdouh"
-                                    />
+                                    <Link href="/">
+                                        <img
+                                            className="h-8 w-auto"
+                                            src="/assets/logo.png"
+                                            alt="Kero Mamdouh"
+                                        />
+                                    </Link>
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-4">
                                         {navigation.map((item) => (
-                                            <a
+                                            <Link
                                                 key={item.name}
                                                 href={item.href}
                                                 className={classNames(
                                                     item.current
-                                                        ? "bg-gray-900 text-white"
-                                                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                                        ? "bg-secondary-900 text-white"
+                                                        : "text-gray-300 hover:bg-secondary-700 hover:text-white",
                                                     "rounded-md flex items-center gap-2 px-3 py-2 text-sm font-medium"
                                                 )}
                                                 aria-current={
@@ -92,7 +128,7 @@ export default function Navbar() {
                                             >
                                                 {item.icon}
                                                 {item.name}
-                                            </a>
+                                            </Link>
                                         ))}
                                     </div>
                                 </div>
@@ -106,11 +142,6 @@ export default function Navbar() {
                                             <span className="sr-only">
                                                 Open user menu
                                             </span>
-                                            {/* <img
-                                                className="h-8 w-8 rounded-full"
-                                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                alt=""
-                                            /> */}
                                             <Cog6ToothIcon className="text-white h-6 w-6 rounded-full" />
                                         </Menu.Button>
                                     </div>
@@ -124,51 +155,23 @@ export default function Navbar() {
                                         leaveTo="transform opacity-0 scale-95"
                                     >
                                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="#"
-                                                        className={classNames(
-                                                            active
-                                                                ? "bg-gray-100"
-                                                                : "",
-                                                            "block px-4 py-2 text-sm text-gray-700"
-                                                        )}
-                                                    >
-                                                        Your Profile
-                                                    </a>
-                                                )}
-                                            </Menu.Item>
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="#"
-                                                        className={classNames(
-                                                            active
-                                                                ? "bg-gray-100"
-                                                                : "",
-                                                            "block px-4 py-2 text-sm text-gray-700"
-                                                        )}
-                                                    >
-                                                        Settings
-                                                    </a>
-                                                )}
-                                            </Menu.Item>
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="#"
-                                                        className={classNames(
-                                                            active
-                                                                ? "bg-gray-100"
-                                                                : "",
-                                                            "block px-4 py-2 text-sm text-gray-700"
-                                                        )}
-                                                    >
-                                                        Sign out
-                                                    </a>
-                                                )}
-                                            </Menu.Item>
+                                            {menu.map((item) => (
+                                                <Menu.Item key={item.name}>
+                                                    {({ active }) => (
+                                                        <Link
+                                                            href={item.href}
+                                                            className={classNames(
+                                                                active
+                                                                    ? "bg-gray-100"
+                                                                    : "",
+                                                                "block px-4 py-2 text-sm text-gray-700"
+                                                            )}
+                                                        >
+                                                            {item.name}
+                                                        </Link>
+                                                    )}
+                                                </Menu.Item>
+                                            ))}
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>

@@ -7,5 +7,20 @@ use Illuminate\Http\Request;
 
 class EnrolledCourseController extends Controller
 {
-    //
+    public function index()
+    {
+        $user = auth()->user()->load('enrolledCourses.course');
+        return inertia()->render('Student/EnrolledCourses/Index', [
+            'enrolledCourses' => $user->enrolledCourses,
+        ]);
+    }
+
+    public function show($id)
+    {
+        $enrolledCourse = auth()->user()->enrolledCourses()->findOrFail($id);
+        $enrolledCourse->load('course.blocks.resources:id,block_id,title,type');
+        return inertia()->render('Student/EnrolledCourses/Show', [
+            'enrolledCourse' => $enrolledCourse,
+        ]);
+    }
 }

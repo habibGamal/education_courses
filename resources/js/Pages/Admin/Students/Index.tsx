@@ -1,5 +1,5 @@
 import HeaderTitle from "@/Components/HeaderTitle";
-import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
+import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
 import { useTranslate } from "@/Layouts/Config";
 import { Paginate, User } from "@/types";
 import { Head, router } from "@inertiajs/react";
@@ -47,7 +47,7 @@ export default function Index({ students }: { students: Paginate<User> }) {
         router.get(route("admin.students.index", { email: value }));
     };
 
-    useAdminHeaderTitle(<HeaderTitle title={t("Students", "الطلاب")} />);
+    useHeaderTitle(<HeaderTitle title={t("Students", "الطلاب")} />);
     return (
         <>
             <Head title="Orders" />

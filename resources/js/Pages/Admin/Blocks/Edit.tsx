@@ -3,7 +3,7 @@ import ResourceIndex from "@/Components/Courses/ResourceIndex";
 import HeaderTitle from "@/Components/HeaderTitle";
 import IsolateFormStyle from "@/Components/IsolateFormStyle";
 import ResortingItems from "@/Components/ResortingItems";
-import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
+import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
 import useResort from "@/Hooks/useResort";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useTranslate } from "@/Layouts/Config";
@@ -69,7 +69,7 @@ export default function Edit({
         },
     ];
 
-    useAdminHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
+    useHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
     return (
         <>
             <Breadcrumb

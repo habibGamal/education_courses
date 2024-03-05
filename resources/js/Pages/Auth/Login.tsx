@@ -1,6 +1,6 @@
 import { useTranslate } from "@/Layouts/Config";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import { Button, Checkbox, Form, Input } from "antd";
 
 type FieldType = {
@@ -15,9 +15,6 @@ export default function Login({
     status?: string;
     canResetPassword: boolean;
 }) {
-
-
-
     console.log(status);
 
     const onFinish = (values: FieldType) => {
@@ -85,10 +82,31 @@ export default function Login({
                     <Checkbox>{t("Remember me", "تذكرني")}</Checkbox>
                 </Form.Item>
 
-                <Form.Item className="mb-0" wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
+                <Form.Item
+                    className="mb-0"
+                    wrapperCol={{ offset: 8, span: 16 }}
+                >
+                    <Link
+                        href={route("password.request")}
+                        className="underline text-sm text-gray-600  hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        {t("Forgot your password?", "نسيت كلمة المرور؟")}
+                    </Link>
+                    {/* <Button type="link"></Button> */}
+                    <Button className="mx-2" type="primary" htmlType="submit">
                         {t("Login", "تسجيل الدخول")}
                     </Button>
+                </Form.Item>
+                <Form.Item
+                    className="mb-0"
+                    wrapperCol={{ offset: 8, span: 16 }}
+                >
+                    <Link
+                        href={route("register")}
+                        className="underline text-sm text-gray-600  hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        {t("Register", "تسجيل")}
+                    </Link>
                 </Form.Item>
             </Form>
 

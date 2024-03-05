@@ -38,7 +38,7 @@ class UserOrderController extends Controller
         foreach ($user->cart->cartItems as $cartItem) {
             $order->orderItems()->create([
                 'course_id' => $cartItem->course_id,
-                'price' => $cartItem->course->price,
+                'price' => $cartItem->course->discount_price,
             ]);
         }
 
@@ -55,7 +55,7 @@ class UserOrderController extends Controller
     {
         $user = auth()->user()->load('orders.payment');
 
-        return inertia()->render('Orders/Index', [
+        return inertia()->render('Student/Orders/Index', [
             'orders' => $user->orders,
         ]);
     }
@@ -66,7 +66,7 @@ class UserOrderController extends Controller
 
         $order = $user->orders()->with('orderItems.course')->findOrFail($orderId);
 
-        return inertia()->render('Orders/Show', [
+        return inertia()->render('Student/Orders/Show', [
             'order' => $order,
         ]);
     }

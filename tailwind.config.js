@@ -14,6 +14,9 @@ export default {
         preflight: false, // <== disable this!
     },
     theme: {
+        container: {
+            center: true,
+        },
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],

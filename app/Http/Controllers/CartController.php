@@ -24,13 +24,17 @@ class CartController extends Controller
 
         $courseId = $request->input('course_id');
 
-        $user = auth()->user()->load('cart');
+        $user = auth()->user()->load('cart.cartItems');
+        // if the course is already in the cart then redirect back with error
+        if ($user->cart->cartItems->contains('course_id', $courseId)) {
+            return redirect()->back()->with('error', ['Course already in cart', 'الدورة موجودة بالفعل في السلة']);
+        }
 
         $user->cart->cartItems()->create([
             'course_id' => $courseId,
         ]);
 
-        return redirect()->back();
+        return redirect()->route('cart.show')->with('success', ['Course added to cart', 'تمت إضافة الدورة إلى السلة']);
     }
 
 

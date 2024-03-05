@@ -197,10 +197,10 @@ export default function Register() {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="link" htmlType="submit">
+                    <Link href={route('login')}>
                         {t("Already registered?", "هل لديك حساب بالفعل؟")}
-                    </Button>
-                    <Button type="primary" htmlType="submit">
+                    </Link>
+                    <Button className="mx-2" type="primary" htmlType="submit">
                         {t("Register", "تسجيل")}
                     </Button>
                 </Form.Item>

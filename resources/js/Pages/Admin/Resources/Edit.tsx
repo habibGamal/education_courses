@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { useState } from "react";
 import { Link, router } from "@inertiajs/react";
-import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
+import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
 
 export default function Edit({
     courseId,
@@ -43,7 +43,7 @@ export default function Edit({
         resource.type
     );
 
-    useAdminHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
+    useHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);
     return (
         <>
             <Breadcrumb

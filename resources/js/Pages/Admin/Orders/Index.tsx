@@ -1,14 +1,10 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
-import AuthenticatedLayout, {
-    authLayoutContext,
-} from "@/Layouts/AuthenticatedLayout";
 import HeaderTitle from "@/Components/HeaderTitle";
-import { useTranslate } from "@/Layouts/Config";
-import { Button, Input, Table, TablePaginationConfig } from "antd";
-import { Head, router } from "@inertiajs/react";
-import { Order, Paginate } from "@/types";
 import PaymentStatusBadge from "@/Components/PaymentStatusBadge";
-import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
+import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
+import { useTranslate } from "@/Layouts/Config";
+import { Order, Paginate } from "@/types";
+import { Head, router } from "@inertiajs/react";
+import { Button, Table, TablePaginationConfig } from "antd";
 import Search from "antd/es/input/Search";
 
 export default function Index({ orders }: { orders: Paginate<Order> }) {
@@ -85,7 +81,7 @@ export default function Index({ orders }: { orders: Paginate<Order> }) {
         router.get(route("admin.orders.search", { email: value }));
     };
 
-    useAdminHeaderTitle(<HeaderTitle title={t("Orders", "الاشتراكات")} />);
+    useHeaderTitle(<HeaderTitle title={t("Orders", "الاشتراكات")} />);
     return (
         <>
             <Head title="Orders" />

@@ -60,7 +60,17 @@ export default function Config({ children }: { children: React.ReactNode }) {
     }, [appState.lang]);
     return (
         <AppStatusContext.Provider value={[appState, setAppState]}>
-            <ConfigProvider direction={appState.lang === "ar" ? "rtl" : "ltr"}>
+            <ConfigProvider
+                direction={appState.lang === "ar" ? "rtl" : "ltr"}
+                theme={{
+                    token: {
+                        // Seed Token
+                        colorPrimary: "#143D59",
+                        borderRadius: 4,
+                        // fontSize:18
+                    },
+                }}
+            >
                 <App>{children}</App>
             </ConfigProvider>
         </AppStatusContext.Provider>

@@ -27,16 +27,16 @@ export interface Course {
     id: number;
     title: string;
     thumbnail: string;
-    createdBy: string;
-    totalEnrolled: number;
+    created_by: string;
+    total_enrolled: number;
     description: string;
     duration: string;
-    whatWillLearn: string;
+    what_will_learn: string;
     requirements: string;
     level: string;
     price: number;
-    discountPrice: number;
-    promoVideoLink: string | null;
+    discount_price: number;
+    promo_video_link: string | null;
     createdAt: Date;
     updatedAt: Date;
     blocks?: Block[];
@@ -98,6 +98,24 @@ interface OrderItem {
     created_at: string;
     updated_at: string;
     course?: Course;
+}
+
+
+interface CartItem {
+    id: number;
+    cart_id: number;
+    course_id: number;
+    created_at: string;
+    updated_at: string;
+    course?: Course;
+}
+
+interface Cart {
+    id: number;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+    cart_items?: CartItem[];
 }
 
 interface Coupon {

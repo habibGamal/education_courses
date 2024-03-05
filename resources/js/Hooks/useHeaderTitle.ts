@@ -1,7 +1,7 @@
-import { authLayoutContext } from "@/Layouts/AuthenticatedLayout";
+import { authLayoutContext } from "@/Contexts/authLayoutContext";
 import React, { ReactNode, useContext, useEffect } from "react";
 
-export function useAdminHeaderTitle(header: ReactNode) {
+export function useHeaderTitle(header: ReactNode) {
     const layoutCTX = useContext(authLayoutContext);
     useEffect(() => {
         layoutCTX?.setHeader(header);

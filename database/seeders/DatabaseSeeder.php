@@ -6,8 +6,10 @@ namespace Database\Seeders;
 
 use App\Enums\UserRole;
 use App\Models\Block;
+use App\Models\Cart;
 use App\Models\Coupon;
 use App\Models\Course;
+use App\Models\EnrolledCourse;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
@@ -37,7 +39,7 @@ class DatabaseSeeder extends Seeder
             'city' => '__',
             'phone' => '1234567890',
         ]);
-        User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'User',
             'email' => 'user@gmail.com',
             'email_verified_at' => now(),
@@ -48,19 +50,32 @@ class DatabaseSeeder extends Seeder
             'city' => '__',
             'phone' => '1234567890',
         ]);
-
-        Course::factory(2)->create();
-        Block::factory(2)->create([
-            'course_id' => Course::all()->random()->id,
+        Cart::factory(1)->create([
+            'user_id' => $user->id,
         ]);
-        Resource::factory(2)->create([
+
+        Course::factory(1)->create([
+            'title'=> 'Course 1',
+        ]);
+        Block::factory(1)->create([
+            'course_id' => 1,
+            'title' => 'Block 1'
+        ]);
+        Resource::factory(1)->create([
             'block_id' => Block::all()->random()->id,
+            'title' => 'Resource 1',
+        ]);
+
+        EnrolledCourse::factory(1)->create([
+            'user_id' => $user->id,
+            'course_id' => 1,
         ]);
 
         // fake Order
         $orders = Order::factory(1)->create();
-        OrderItem::factory(2)->create([
+        OrderItem::factory(1)->create([
             'order_id' => Order::all()->random()->id,
+            'course_id' => Course::all()->random()->id,
         ]);
 
         // fake coupon

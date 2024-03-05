@@ -3,12 +3,12 @@ import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import HeaderTitle from "@/Components/HeaderTitle";
 import { useTranslate } from "@/Layouts/Config";
-import { useAdminHeaderTitle } from "@/Hooks/useAdminHeaderTitle";
+import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
 
 export default function Dashboard({ auth }: PageProps) {
     const t = useTranslate();
 
-    useAdminHeaderTitle(t("Dashboard", "لوحة التحكم"));
+    useHeaderTitle(t("Dashboard", "لوحة التحكم"));
     return (
         <>
             <Head title="Dashboard" />

@@ -1,13 +1,20 @@
 import { Link, Head } from "@inertiajs/react";
-import { PageProps } from "@/types";
+import { Course, PageProps } from "@/types";
 import Navbar from "@/Components/Navbar";
 import { Typography } from "antd";
+import CourseCard from "@/Components/CourseCard";
+import SectionTitle from "@/Components/SectionTitle";
 
 export default function Welcome({
     auth,
     laravelVersion,
     phpVersion,
-}: PageProps<{ laravelVersion: string; phpVersion: string }>) {
+    courses,
+}: PageProps<{
+    laravelVersion: string;
+    phpVersion: string;
+    courses: Course[];
+}>) {
     return (
         <>
             <Head title="Welcome" />
@@ -29,8 +36,27 @@ export default function Welcome({
                         Ignite Your Imagination – Enroll Now!
                     </button>
                     <div className="flex -mb-8 justify-center mt-12 w-1/2">
-                        <img className="w-full h-64 object-cover rounded-2xl hero-shadow" src="/assets/hero.jpg" alt="hero" />
+                        <img
+                            className="w-full h-64 object-cover rounded-2xl hero-shadow"
+                            src="/assets/hero.jpg"
+                            alt="hero"
+                        />
                     </div>
+                </div>
+            </div>
+            <div className="container my-32">
+                <SectionTitle
+                    title={
+                        <>
+                            Discover{" "}
+                            <span className="down-mark-line">Courses</span>
+                        </>
+                    }
+                />
+                <div className="grid grid-cols-3 gap-4 justify-items-center mt-16">
+                    {courses.map((course) => (
+                        <CourseCard key={course.id} course={course} />
+                    ))}
                 </div>
             </div>
         </>

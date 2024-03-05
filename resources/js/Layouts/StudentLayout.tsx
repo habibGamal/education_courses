@@ -1,13 +1,14 @@
 import AdminHeader from "@/Components/AdminHeader";
-import AdminSider from "@/Components/AdminSider";
+import StudentSider from "@/Components/StudentSider";
+import { authLayoutContext } from "@/Contexts/authLayoutContext";
 import useStatus from "@/Hooks/useStatus";
 import { Layout, theme } from "antd";
 import { PropsWithChildren, ReactNode, useState } from "react";
-import { authLayoutContext } from "@/Contexts/authLayoutContext";
+
 const { Header, Content, Footer, Sider } = Layout;
 
-export default function Authenticated({
-    // header,
+
+export default function StudentLayout({
     children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
     const {
@@ -20,7 +21,7 @@ export default function Authenticated({
     return (
         <authLayoutContext.Provider value={{ header, setHeader }}>
             <Layout style={{ minHeight: "100vh" }}>
-                <AdminSider />
+                <StudentSider />
                 <Layout>
                     <AdminHeader header={header} />
                     <Content className="m-4">
