@@ -36,8 +36,8 @@ class ResourceController extends Controller
         $resource->block->load('course:id,title');
         $targetExtension = 'm3u8';
         $disk = Storage::disk('public');
-        $directories =   $disk->directories('videos', true);
-        $matchingDirectories = array_filter($directories, function ($directory) use ($targetExtension, $disk) {
+        $videosDirectories =   $disk->directories('videos', true);
+        $matchingDirectories = array_filter($videosDirectories, function ($directory) use ($targetExtension, $disk) {
             $files = $disk->files($directory);
             foreach ($files as $file) {
                 $fileInfo = pathinfo($file);
@@ -48,12 +48,14 @@ class ResourceController extends Controller
 
             return false;
         });
+        $filesDirectories = $disk->files('files', true);
         return inertia()->render('Admin/Resources/Edit', [
             'courseId' => $resource->block->course_id,
             'courseTitle' =>  $resource->block->course->title,
             'blockTitle' =>  $resource->block->title,
             'resource' => $resource,
             'videosDirectories' => array_values($matchingDirectories),
+            'filesDirectories' => $filesDirectories,
         ]);
     }
 

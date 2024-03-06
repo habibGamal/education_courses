@@ -64,7 +64,7 @@ class UserOrderController extends Controller
     {
         $user = auth()->user();
 
-        $order = $user->orders()->with('orderItems.course')->findOrFail($orderId);
+        $order = $user->orders()->with(['orderItems.course', 'payment.coupon'])->findOrFail($orderId);
 
         return inertia()->render('Student/Orders/Show', [
             'order' => $order,

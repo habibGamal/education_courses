@@ -13,6 +13,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\EnrolledCourseController;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,19 @@ Route::name('browse.')->group(function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'admin', 'verified'])->name('dashboard');
+
+Route::get('/videos/{url}', function ($url) {
+    return view('video', ['url' => $url]);
+})->name('videos');
+
+Route::get('/storage/videos/{videoName}/{key}', function ($videoName, $key) {
+    return Storage::disk('secure')->download("{$videoName}/{$key}");
+})->middleware(['auth','accessResource'])->name('videos.key');
+
+
+Route::any('/tiny-file-manager', function () {
+    return view('tinyfilemanager');
+})->middleware(['auth','admin'])->name('tiny-file-manager');
 
 Route::middleware('auth')->group(function () {
     Route::get('/user-dashboard', function () {

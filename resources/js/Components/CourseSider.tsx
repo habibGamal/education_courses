@@ -1,6 +1,6 @@
 import { useTranslate } from "@/Layouts/Config";
 import {
-    ShoppingOutlined,
+    HomeOutlined,
     VideoCameraOutlined,
     FileOutlined,
 } from "@ant-design/icons";
@@ -27,13 +27,27 @@ function getItem(
     } as MenuItem;
 }
 
-export default function CourseSider({ course }: { course: Course }) {
+export default function CourseSider({
+    course,
+    setSelectedResource,
+}: {
+    course: Course;
+    setSelectedResource: (resource: string) => void;
+}) {
     const [collapsed, setCollapsed] = useState(false);
     const t = useTranslate();
-    const items: MenuItem[] = course.blocks!.map((block) =>
+    const items: MenuItem[] =[
+        getItem(
+            <Link href={route("user-dashboard")}>
+                {t("Dashboard", "الرئيسية")}
+            </Link>,
+            "home",
+            <HomeOutlined />
+        ),
+        ...course.blocks!.map((block) =>
         getItem(
             block.title,
-            block.id,
+            `block - ${block.id}`,
             undefined,
             block.resources!.map((resource) =>
                 getItem(
@@ -47,7 +61,7 @@ export default function CourseSider({ course }: { course: Course }) {
                 )
             )
         )
-    );
+    )]
 
     return (
         <Sider
@@ -64,6 +78,9 @@ export default function CourseSider({ course }: { course: Course }) {
                 defaultSelectedKeys={["1"]}
                 mode="inline"
                 items={items}
+                onSelect={(item) => {
+                    setSelectedResource(item.key);
+                }}
             />
         </Sider>
     );

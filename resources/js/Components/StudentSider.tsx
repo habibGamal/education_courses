@@ -41,7 +41,7 @@ export default function StudentSider() {
             <VideoCameraOutlined />
         ),
         getItem(
-            <Link href={route("enrolled-courses.index")}>
+            <Link href={route("orders.index")}>
                 {t("Orders", "الاشتراكات")}
             </Link>,
             "orders",

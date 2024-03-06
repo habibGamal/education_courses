@@ -21,14 +21,16 @@ export default function Edit({
     blockTitle,
     resource,
     videosDirectories,
+    filesDirectories,
 }: {
     courseId: number;
     courseTitle: string;
     blockTitle: string;
     resource: Resource;
     videosDirectories: string[];
+    filesDirectories: string[];
 }) {
-    console.log(videosDirectories);
+    console.log(filesDirectories);
     const [form] = Form.useForm();
     const t = useTranslate();
     const filterOption = (
@@ -116,7 +118,7 @@ export default function Edit({
                             placeholder="Select file path"
                             optionFilterProp="children"
                             filterOption={filterOption}
-                            options={videosDirectories.map((directory) => ({
+                            options={filesDirectories.map((directory) => ({
                                 value: directory,
                                 label: directory,
                             }))}

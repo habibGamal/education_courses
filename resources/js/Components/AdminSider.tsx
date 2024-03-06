@@ -72,9 +72,9 @@ export default function AdminSider() {
             <UserOutlined />
         ),
         getItem(
-            <Link href={route("file-manager")}>
+            <a href={route("tiny-file-manager")}>
                 {t("File Manager", "مدير الملفات")}
-            </Link>,
+            </a>,
             "file_manager",
             <FolderOpenOutlined />
         ),

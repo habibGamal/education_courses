@@ -55,15 +55,20 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Course::factory(1)->create([
-            'title'=> 'Course 1',
+            'title' => 'Course 1',
         ]);
-        Block::factory(1)->create([
+        Block::factory(2)->create([
             'course_id' => 1,
             'title' => 'Block 1'
         ]);
         Resource::factory(1)->create([
-            'block_id' => Block::all()->random()->id,
+            'block_id' => 1,
             'title' => 'Resource 1',
+        ]);
+        Resource::factory(1)->create([
+            'block_id' => 1,
+            'title' => 'Resource 2',
+            'type' => 'file'
         ]);
 
         EnrolledCourse::factory(1)->create([
@@ -72,7 +77,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // fake Order
-        $orders = Order::factory(1)->create();
+        $orders = Order::factory(1)->create([
+            'user_id' => $user->id,
+        ]);
         OrderItem::factory(1)->create([
             'order_id' => Order::all()->random()->id,
             'course_id' => Course::all()->random()->id,
