@@ -1,3 +1,4 @@
+import imagePathResolver from "@/Helpers/imagePathResolver";
 import useModal from "@/Hooks/useModal";
 import HomeLayout from "@/Layouts/HomeLayout";
 import { Course, Resource } from "@/types";
@@ -68,7 +69,7 @@ export default function Show({ course }: { course: Course }) {
                 </Typography.Title>
             </div>
             <div className="container -mt-6 relative z-10">
-                <div className="grid grid-cols-3 gap-4 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
                     <div className="bg-white rounded-xl p-6 col-span-2">
                         <Typography.Title level={2}>
                             {course.title}
@@ -126,8 +127,8 @@ export default function Show({ course }: { course: Course }) {
                     <div className="bg-white rounded-xl p-6">
                         <div className="relative">
                             <img
-                                className="w-full"
-                                src={course.thumbnail}
+                                className="w-full max-h-[275px] object-cover rounded-xl"
+                                src={imagePathResolver(course.thumbnail)}
                                 alt="course"
                             />
                             <span

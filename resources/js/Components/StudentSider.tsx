@@ -1,9 +1,14 @@
 import { useTranslate } from "@/Layouts/Config";
-import { ShoppingOutlined, VideoCameraOutlined ,HomeOutlined} from "@ant-design/icons";
+import {
+    ShoppingOutlined,
+    VideoCameraOutlined,
+    HomeOutlined,
+} from "@ant-design/icons";
 import React, { useState } from "react";
 
 import { Link } from "@inertiajs/react";
 import { Layout, Menu, MenuProps } from "antd";
+import SiderLogo from "./SiderLogo";
 const { Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -27,9 +32,7 @@ export default function StudentSider() {
     const t = useTranslate();
     const items: MenuItem[] = [
         getItem(
-            <Link href={route("home")}>
-                {t("Home", "الرئيسية")}
-            </Link>,
+            <Link href={route("home")}>{t("Home", "الرئيسية")}</Link>,
             "home",
             <HomeOutlined />
         ),
@@ -54,7 +57,7 @@ export default function StudentSider() {
             collapsed={collapsed}
             onCollapse={(value) => setCollapsed(value)}
         >
-            <div className="h-12 m-4 bg-white rounded" />
+            <SiderLogo />
             <Menu
                 theme="dark"
                 defaultSelectedKeys={["1"]}

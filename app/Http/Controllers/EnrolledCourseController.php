@@ -18,7 +18,7 @@ class EnrolledCourseController extends Controller
     public function show($id)
     {
         $enrolledCourse = auth()->user()->enrolledCourses()->findOrFail($id);
-        $enrolledCourse->load('course.blocks.resources:id,block_id,title,type,video_url,file_url');
+        $enrolledCourse->load('course.blocks.resources:id,block_id,title,type,video_url,file_url,sort_order');
         return inertia()->render('Student/EnrolledCourses/Show', [
             'enrolledCourse' => $enrolledCourse,
         ]);

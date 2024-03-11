@@ -21,4 +21,10 @@ class Cart extends Model
     {
         return $this->cartItems->sum('course.price');
     }
+
+
+    public function getRequiredTotalAttribute()
+    {
+        return $this->cartItems->sum('course.discount_price');
+    }
 }

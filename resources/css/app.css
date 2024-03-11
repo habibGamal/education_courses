@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap'); */
+* {
+    font-family: "Space Grotesk";
+}
+
 body {
     margin: 0;
     background-color: #f6f8fb;
@@ -23,8 +28,14 @@ body {
     border-radius: 0 0 130% 130% / 0 0 50% 50%;
 }
 
+@media (max-width: 768px) {
+    .bg-gradient {
+        border-radius: 0 0 230% 230% / 0 0 30% 30%;
+    }
+}
+
 .bg-designer {
-    background-image: url("/assets/bg_designer.jpg");
+    background-image: url("/assets/bg_layer.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -119,4 +130,19 @@ body {
     100% {
         box-shadow: 0 0 0 0 hsla(0, 0%, 100%, 0);
     }
+}
+
+
+.custom-ant-card-cover .ant-card-cover {
+    padding: 1rem;
+    padding-bottom: 0;
+}
+
+
+.arrows .r-arrow {
+    transform: rotateZ(302deg) rotateX(180deg);
+}
+
+.arrows .l-arrow {
+    transform: rotateZ(122deg) rotateX(180deg);
 }

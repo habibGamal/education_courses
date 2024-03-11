@@ -1,5 +1,6 @@
 import HeaderTitle from "@/Components/HeaderTitle";
 import PaymentStatusBadge from "@/Components/PaymentStatusBadge";
+import imagePathResolver from "@/Helpers/imagePathResolver";
 import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
 import { useTranslate } from "@/Layouts/Config";
 import StudentLayout from "@/Layouts/StudentLayout";
@@ -97,7 +98,7 @@ export default function Show({ order }: { order: Order }) {
         {
             key: "10",
             label: t("Screenshot", "صورة الدفع"),
-            children: <Image width={200} src={order.payment?.screenshot} />,
+            children: <Image width={200} src={imagePathResolver(order.payment?.screenshot!)} />,
         },
     ];
 

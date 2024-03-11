@@ -10,8 +10,9 @@ import { Button, Layout, theme } from "antd";
 import React, { useEffect, useMemo } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import Footer from "@/Components/Footer";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 Show.layout = null;
 export default function Show({
@@ -98,10 +99,7 @@ export default function Show({
                         )}
                     </div>
                 </Content>
-                <Footer style={{ textAlign: "center" }}>
-                    KM Retouch ©{new Date().getFullYear()} Created by Eng. Habib
-                    Gamal
-                </Footer>
+                <Footer />
             </Layout>
         </Layout>
     );
@@ -110,7 +108,7 @@ export default function Show({
 const ShowVideo = ({ url }: { url: string | undefined }) => (
     <iframe
         className="rounded-xl border-none min-h-[500px]"
-        src={"/videos/" + url}
+        src={"/" + url}
         width="100%"
         title="video"
     ></iframe>

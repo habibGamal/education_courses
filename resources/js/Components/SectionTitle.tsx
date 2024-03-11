@@ -3,8 +3,8 @@ import React from "react";
 
 export default function SectionTitle({ title }: { title: React.ReactNode }) {
     return (
-        <Typography.Title className="!text-4xl" level={2}>
+        <Typography.Text className="!text-4xl font-bold">
             {title}
-        </Typography.Title>
+        </Typography.Text>
     );
 }

@@ -1,11 +1,12 @@
 import AdminHeader from "@/Components/AdminHeader";
+import Footer from "@/Components/Footer";
 import StudentSider from "@/Components/StudentSider";
 import { authLayoutContext } from "@/Contexts/authLayoutContext";
 import useStatus from "@/Hooks/useStatus";
 import { Layout, theme } from "antd";
 import { PropsWithChildren, ReactNode, useState } from "react";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 
 export default function StudentLayout({
@@ -35,10 +36,7 @@ export default function StudentLayout({
                             {children}
                         </div>
                     </Content>
-                    <Footer style={{ textAlign: "center" }}>
-                        KM Retouch ©{new Date().getFullYear()} Created by Eng.
-                        Habib Gamal
-                    </Footer>
+                    <Footer />
                 </Layout>
             </Layout>
         </authLayoutContext.Provider>

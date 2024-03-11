@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
 import { Layout, Menu, MenuProps } from "antd";
 import { Course } from "@/types";
+import SiderLogo from "./SiderLogo";
 const { Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -36,7 +37,8 @@ export default function CourseSider({
 }) {
     const [collapsed, setCollapsed] = useState(false);
     const t = useTranslate();
-    const items: MenuItem[] =[
+    console.log(course.blocks![0].resources!.sort((a, b) => a.sort_order - b.sort_order));
+    const items: MenuItem[] = [
         getItem(
             <Link href={route("user-dashboard")}>
                 {t("Dashboard", "الرئيسية")}
@@ -44,24 +46,27 @@ export default function CourseSider({
             "home",
             <HomeOutlined />
         ),
-        ...course.blocks!.map((block) =>
-        getItem(
-            block.title,
-            `block - ${block.id}`,
-            undefined,
-            block.resources!.map((resource) =>
+        ...course
+            .blocks!.sort((a, b) => a.sort_order - b.sort_order)
+            .map((block) =>
                 getItem(
-                    resource.title,
-                    resource.id,
-                    resource.type === "video" ? (
-                        <VideoCameraOutlined />
-                    ) : (
-                        <FileOutlined />
+                    block.title,
+                    `block - ${block.id}`,
+                    undefined,
+                    block.resources!.sort((a, b) => a.sort_order - b.sort_order).map((resource) =>
+                        getItem(
+                            resource.title,
+                            resource.id,
+                            resource.type === "video" ? (
+                                <VideoCameraOutlined />
+                            ) : (
+                                <FileOutlined />
+                            )
+                        )
                     )
                 )
-            )
-        )
-    )]
+            ),
+    ];
 
     return (
         <Sider
@@ -72,7 +77,7 @@ export default function CourseSider({
                 minWidth: "300px",
             }}
         >
-            <div className="h-12 m-4 bg-white rounded" />
+            <SiderLogo />
             <Menu
                 theme="dark"
                 defaultSelectedKeys={["1"]}

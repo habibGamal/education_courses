@@ -19,7 +19,13 @@ function classNames(...classes: string[]) {
 export default function Navbar() {
     const user = (usePage().props as PageProps<any>).auth.user as User | null;
     const isStudent = user && user.role === "user";
-    const navigation = [
+    const navigation: {
+        name: string;
+        icon: JSX.Element;
+        href: string;
+        current: boolean;
+        method?: string;
+    }[] = [
         {
             name: "Catalog",
             icon: (
@@ -61,6 +67,7 @@ export default function Navbar() {
     const menu: {
         name: string;
         href: string;
+        method?: string;
     }[] = [
         {
             name: "Dashboard",
@@ -69,15 +76,18 @@ export default function Navbar() {
         {
             name: "Logout",
             href: route("logout"),
+            method: "post",
         },
     ];
+
+
 
     return (
         <Disclosure as="nav" className="bg-transparent">
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                        <div className="relative flex h-16 items-center justify-between">
+                        <div className="relative flex h-[5rem] items-center justify-between">
                             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                 {/* Mobile menu button*/}
                                 <Disclosure.Button className="relative bg-transparent border-none inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -102,14 +112,14 @@ export default function Navbar() {
                                 <div className="flex flex-shrink-0 items-center">
                                     <Link href="/">
                                         <img
-                                            className="h-8 w-auto"
-                                            src="/assets/logo.png"
+                                            className="h-[2.5rem] w-auto rounded-xl"
+                                            src="/assets/nav_logo.jpg"
                                             alt="Kero Mamdouh"
                                         />
                                     </Link>
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
-                                    <div className="flex space-x-4">
+                                    <div className="flex space-x-4 h-full">
                                         {navigation.map((item) => (
                                             <Link
                                                 key={item.name}
@@ -133,7 +143,7 @@ export default function Navbar() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                            <div className={`${user?"":"hidden"} absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0`}>
                                 {/* Profile dropdown */}
                                 <Menu as="div" className="relative ml-3">
                                     <div>
@@ -166,6 +176,7 @@ export default function Navbar() {
                                                                     : "",
                                                                 "block px-4 py-2 text-sm text-gray-700"
                                                             )}
+                                                            method={(item.method as 'get'|'post')?? 'get'}
                                                         >
                                                             {item.name}
                                                         </Link>

@@ -46,14 +46,18 @@ export default function CourseForm({
                 rules={[{ required: mode === "create" }]}
             >
                 <FileUpload />
-                {mode === "edit" && (
+            </Form.Item>
+            {mode === "edit" && (
+                <Form.Item
+                    label={t("Current Thumbnail", "الصورة المصغرة الحالية")}
+                >
                     <img
                         src={thumbUrl}
                         alt={initialValues?.title}
                         className="w-48 rounded shadow"
                     />
-                )}
-            </Form.Item>
+                </Form.Item>
+            )}
 
             <Form.Item
                 label={t("Created By", "أنشئت بواسطة")}

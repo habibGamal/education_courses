@@ -65,10 +65,18 @@ export default function Config({ children }: { children: React.ReactNode }) {
                 theme={{
                     token: {
                         // Seed Token
-                        colorPrimary: "#143D59",
+                        colorPrimary: "#EAB308",
+                        colorError: "#bd5e5f",
                         borderRadius: 4,
                         // fontSize:18
+                        fontFamily: "Space Grotesk",
+                        // colorBgBase: "#000"
                     },
+                    // components: {
+                    //     Menu: {
+                    //         darkItemBg: "#000",
+                    //     }
+                    // }
                 }}
             >
                 <App>{children}</App>

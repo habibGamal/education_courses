@@ -15,6 +15,7 @@ import { useTranslate } from "@/Layouts/Config";
 import { Order } from "@/types";
 import PaymentStatusBadge from "@/Components/PaymentStatusBadge";
 import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
+import imagePathResolver from "@/Helpers/imagePathResolver";
 
 export default function Show({ order }: { order: Order }) {
     console.log(order);
@@ -128,7 +129,7 @@ export default function Show({ order }: { order: Order }) {
         {
             key: "10",
             label: t("Screenshot", "صورة الدفع"),
-            children: <Image width={200} src={order.payment?.screenshot} />,
+            children: <Image width={200} src={imagePathResolver(order.payment?.screenshot!)} />,
         },
     ];
 

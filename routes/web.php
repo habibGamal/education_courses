@@ -56,7 +56,8 @@ Route::name('browse.')->group(function () {
 
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    // return Inertia::render('Dashboard');
+    return redirect()->route('courses.index');
 })->middleware(['auth', 'admin', 'verified'])->name('dashboard');
 
 Route::get('/videos/{url}', function ($url) {

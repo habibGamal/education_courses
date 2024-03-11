@@ -54,50 +54,50 @@ class DatabaseSeeder extends Seeder
             'user_id' => $user->id,
         ]);
 
-        Course::factory(1)->create([
-            'title' => 'Course 1',
-        ]);
-        Block::factory(2)->create([
-            'course_id' => 1,
-            'title' => 'Block 1'
-        ]);
-        Resource::factory(1)->create([
-            'block_id' => 1,
-            'title' => 'Resource 1',
-        ]);
-        Resource::factory(1)->create([
-            'block_id' => 1,
-            'title' => 'Resource 2',
-            'type' => 'file'
-        ]);
+        // Course::factory(1)->create([
+        //     'title' => 'Course 1',
+        // ]);
+        // Block::factory(2)->create([
+        //     'course_id' => 1,
+        //     'title' => 'Block 1'
+        // ]);
+        // Resource::factory(1)->create([
+        //     'block_id' => 1,
+        //     'title' => 'Resource 1',
+        // ]);
+        // Resource::factory(1)->create([
+        //     'block_id' => 1,
+        //     'title' => 'Resource 2',
+        //     'type' => 'file'
+        // ]);
 
-        EnrolledCourse::factory(1)->create([
-            'user_id' => $user->id,
-            'course_id' => 1,
-        ]);
+        // EnrolledCourse::factory(1)->create([
+        //     'user_id' => $user->id,
+        //     'course_id' => 1,
+        // ]);
 
         // fake Order
-        $orders = Order::factory(1)->create([
-            'user_id' => $user->id,
-        ]);
-        OrderItem::factory(1)->create([
-            'order_id' => Order::all()->random()->id,
-            'course_id' => Course::all()->random()->id,
-        ]);
+        // $orders = Order::factory(1)->create([
+        //     'user_id' => $user->id,
+        // ]);
+        // OrderItem::factory(1)->create([
+        //     'order_id' => Order::all()->random()->id,
+        //     'course_id' => Course::all()->random()->id,
+        // ]);
 
-        // fake coupon
-        Coupon::factory(1)->create([
-            'type' => 'fixed',
-            'value' => 50
-        ]);
+        // // fake coupon
+        // Coupon::factory(1)->create([
+        //     'type' => 'fixed',
+        //     'value' => 50
+        // ]);
 
         // fake Payment
-        $payments = Payment::factory(1)->create([
-            'total' => OrderItem::all()->reduce(fn ($carry, $item) => $carry + $item->price, 0),
-            'coupon_id' =>  Coupon::all()->random()->id,
-            'required_amount' => OrderItem::all()->reduce(fn ($carry, $item) => $carry + $item->price, 0) - Coupon::all()->random()->value,
-        ]);
-        $orders[0]->payment_id = $payments[0]->id;
-        $orders[0]->save();
+        // $payments = Payment::factory(1)->create([
+        //     'total' => OrderItem::all()->reduce(fn ($carry, $item) => $carry + $item->price, 0),
+        //     'coupon_id' =>  Coupon::all()->random()->id,
+        //     'required_amount' => OrderItem::all()->reduce(fn ($carry, $item) => $carry + $item->price, 0) - Coupon::all()->random()->value,
+        // ]);
+        // $orders[0]->payment_id = $payments[0]->id;
+        // $orders[0]->save();
     }
 }

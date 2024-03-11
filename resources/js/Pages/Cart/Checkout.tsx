@@ -1,95 +1,39 @@
+import CartItem from "@/Components/CartItem";
 import FileUpload from "@/Components/FileUpload";
 import useFormErrors from "@/Hooks/useFormErrors";
 import HomeLayout from "@/Layouts/HomeLayout";
 import { Cart } from "@/types";
-import { Link } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import {
     Button,
-    Descriptions,
-    DescriptionsProps,
     Form,
     Input,
     Radio,
     Space,
-    Table,
-    Typography,
+    Typography
 } from "antd";
 
 export default function Checkout({ cart }: { cart: Cart }) {
-    const dataSource = cart.cart_items?.map((item) => ({
-        key: item.id,
-        ...item,
-        courseId: item.course?.id,
-        thumbnail: item.course?.thumbnail,
-        title: item.course?.title,
-        price: item.course?.price,
-        discountPrice: item.course?.discount_price,
-    }));
 
-    const columns = [
-        {
-            title: "",
-            dataIndex: "thumbnail",
-            key: "thumbnail",
-            render: (thumbnail: string) => (
-                <img
-                    className="w-36 block mx-auto rounded shadow"
-                    src={thumbnail}
-                    alt="thumbnail"
-                />
-            ),
-        },
-        {
-            title: "Title",
-            dataIndex: "title",
-            key: "title",
-            render: (title: string, record: any) => (
-                <Link
-                    className="text-black"
-                    href={route("browse.courses.show", record.courseId)}
-                >
-                    {title}
-                </Link>
-            ),
-        },
-        {
-            title: "Price",
-            dataIndex: "price",
-            key: "price",
-        },
 
-        {
-            title: "Discount Price",
-            dataIndex: "discountPrice",
-            key: "discountPrice",
-        },
-    ];
-    const subTotal = cart.cart_items?.reduce((acc, item) => {
+    const total = cart.cart_items?.reduce((acc, item) => {
         return acc + item.course?.discount_price!;
     }, 0);
-    const items: DescriptionsProps["items"] = [
-        {
-            key: "1",
-            label: "Subtotal",
-            children: subTotal,
-            span: 3,
-        },
-        {
-            key: "2",
-            label: "Coupon Discount",
-            children: 0,
-            span: 3,
-        },
-        {
-            key: "3",
-            label: "Should Pay after Discount",
-            children: subTotal,
-            span: 3,
-        },
-    ];
+    const subTotal = cart.cart_items?.reduce((acc, item) => {
+        return acc + item.course?.price!;
+    }, 0);
 
     const [form] = Form.useForm();
     useFormErrors(form);
+
+    const onFinish = (values: any) => {
+        if (values.screenshot)
+            values.screenshot = values.screenshot.file.originFileObj;
+        router.post(route("orders.placeOrder"), values,{
+            forceFormData: true
+        });
+    };
+
     return (
         <>
             <div className="bg-designer min-h-[400px] grid place-items-center">
@@ -97,24 +41,43 @@ export default function Checkout({ cart }: { cart: Cart }) {
                     Checkout
                 </Typography.Title>
             </div>
-            <div className="container my-8">
-                <Table
-                    className="shadow"
-                    dataSource={dataSource}
-                    columns={columns}
-                    pagination={false}
-                    scroll={{ x: true }}
-                />
-                <Descriptions
-                    className="my-8"
-                    title="Cart Totals"
-                    layout="horizontal"
-                    bordered
-                    items={items}
-                />
-                <div className=" w-fit my-8 rounded bg-white p-6">
+            <div className="mx-auto mt-8 max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
+                <div className="rounded-lg md:w-2/3">
+                    {cart.cart_items?.map((item) => (
+                        <CartItem key={item.id} item={item} checkout={true} />
+                    ))}
+                </div>
+                <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+                    <div className="mb-2 flex justify-between">
+                        <p className="text-gray-700">Subtotal</p>
+                        <p className="text-gray-700">
+                            {subTotal?.toFixed(2)} EGP
+                        </p>
+                    </div>
+                    <div className="flex justify-between">
+                        <p className="text-gray-700">After Discount</p>
+                        <p className="text-gray-700">{total?.toFixed(2)} EGP</p>
+                    </div>
+                    <hr className="my-4" />
+                    <div className="flex justify-between">
+                        <p className="text-lg font-bold">Total</p>
+                        <div className="">
+                            <p className="mb-1 text-lg font-bold">
+                                {total?.toFixed(2)} EGP
+                            </p>
+                            <p className="text-sm text-gray-700">
+                                including VAT
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="mx-auto mt-8 max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
+                <div className="my-8 rounded-xl w-full bg-white p-6">
                     <Typography.Title level={3}>Payment</Typography.Title>
-                    <Form form={form} layout="vertical">
+                    <Form form={form} layout="vertical"
+                        onFinish={onFinish}
+                    >
                         <Form.Item
                             name="payment_method"
                             label="Payment Method"
@@ -129,9 +92,24 @@ export default function Checkout({ cart }: { cart: Cart }) {
                                 <Radio value="vodafone_cash">
                                     Vodafone Cash
                                 </Radio>
-                                <Radio value="orange_cash">Orange Cash</Radio>
                                 <Radio value="instapay">Instapay</Radio>
                             </Radio.Group>
+                        </Form.Item>
+                        <Form.Item dependencies={["payment_method"]}>
+                            {({ getFieldValue }) => {
+                                const paymentMethod =
+                                    getFieldValue("payment_method");
+                                return paymentMethod === "vodafone_cash" ? (
+                                    <Typography.Text>
+                                        Send the money to 01093084429 or
+                                        01019095383
+                                    </Typography.Text>
+                                ) : paymentMethod === "instapay" ? (
+                                    <Typography.Text>
+                                        Send the money to 01093084429
+                                    </Typography.Text>
+                                ) : null;
+                            }}
                         </Form.Item>
                         <Form.Item
                             name="phone_number"
@@ -151,7 +129,7 @@ export default function Checkout({ cart }: { cart: Cart }) {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Thumbnail is required",
+                                    message: "Screenshot is required",
                                 },
                             ]}
                         >

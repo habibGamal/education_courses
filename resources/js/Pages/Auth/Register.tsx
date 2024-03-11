@@ -115,10 +115,10 @@ export default function Register() {
                         addonBefore={
                             <Select
                                 defaultValue="+20"
-                                style={{ width: 200 }}
+                                style={{ width: 150 }}
                                 options={countries.map((country) => ({
                                     key: country.name,
-                                    label: `${country.name} +${country.callingCodes[0]}`,
+                                    label: `+${country.callingCodes[0]} ${country.name}`,
                                     value: `${country.name} +${country.callingCodes[0]}`,
                                 }))}
                             />
@@ -197,7 +197,10 @@ export default function Register() {
                 </Form.Item>
 
                 <Form.Item>
-                    <Link href={route('login')}>
+                    <Link
+                        href={route("login")}
+                        className="underline text-sm text-gray-600  hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
                         {t("Already registered?", "هل لديك حساب بالفعل؟")}
                     </Link>
                     <Button className="mx-2" type="primary" htmlType="submit">

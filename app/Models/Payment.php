@@ -19,6 +19,7 @@ class Payment extends Model
         'payment_amount',
         'required_amount',
         'coupon_id',
+        'total',
         'phone_number',
         'screenshot',
     ];

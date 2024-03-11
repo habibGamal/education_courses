@@ -4,7 +4,8 @@ import useStatus from "@/Hooks/useStatus";
 import { Layout, theme } from "antd";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { authLayoutContext } from "@/Contexts/authLayoutContext";
-const { Header, Content, Footer, Sider } = Layout;
+import Footer from "@/Components/Footer";
+const { Header, Content, Sider } = Layout;
 
 export default function Authenticated({
     // header,
@@ -34,10 +35,7 @@ export default function Authenticated({
                             {children}
                         </div>
                     </Content>
-                    <Footer style={{ textAlign: "center" }}>
-                        KM Retouch ©{new Date().getFullYear()} Created by Eng.
-                        Habib Gamal
-                    </Footer>
+                    <Footer />
                 </Layout>
             </Layout>
         </authLayoutContext.Provider>

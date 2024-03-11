@@ -16,11 +16,17 @@ export default function Edit({ course }: { course: Course }) {
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
-        console.log(values);
         if (values.thumbnail?.file)
             values.thumbnail = values.thumbnail.file.originFileObj;
         else delete values.thumbnail;
-        router.put(route("courses.update", { id: course.id }), values);
+        console.log(values);
+        router.post(
+            route("courses.update", { id: course.id }),
+            { ...values, _method: "put" },
+            {
+                forceFormData: true,
+            }
+        );
     };
 
     const onResortBlocks = (data: TreeDataNode[]) => {

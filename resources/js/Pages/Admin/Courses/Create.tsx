@@ -12,7 +12,9 @@ export default function CreateCourse(props: any) {
     const onFinish = (values: any) => {
         if (values.thumbnail)
             values.thumbnail = values.thumbnail.file.originFileObj;
-        router.post(route("courses.store"), values);
+        router.post(route("courses.store"), values,{
+            forceFormData: true
+        });
     };
 
     useHeaderTitle(<HeaderTitle title={t("Courses", "الكورسات")} />);

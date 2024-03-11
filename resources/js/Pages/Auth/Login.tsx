@@ -77,14 +77,20 @@ export default function Login({
                 <Form.Item<FieldType>
                     name="remember"
                     valuePropName="checked"
-                    wrapperCol={{ offset: 8, span: 16 }}
+                    wrapperCol={{
+                        sm: { offset: 8, span: 20 },
+                        xs: { offset: 0, span: 24 },
+                    }}
                 >
                     <Checkbox>{t("Remember me", "تذكرني")}</Checkbox>
                 </Form.Item>
 
                 <Form.Item
                     className="mb-0"
-                    wrapperCol={{ offset: 8, span: 16 }}
+                    wrapperCol={{
+                        sm: { offset: 8, span: 20 },
+                        xs: { offset: 0, span: 24 },
+                    }}
                 >
                     <Link
                         href={route("password.request")}
@@ -99,7 +105,10 @@ export default function Login({
                 </Form.Item>
                 <Form.Item
                     className="mb-0"
-                    wrapperCol={{ offset: 8, span: 16 }}
+                    wrapperCol={{
+                        sm: { offset: 8, span: 20 },
+                        xs: { offset: 0, span: 24 },
+                    }}
                 >
                     <Link
                         href={route("register")}

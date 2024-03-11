@@ -17,16 +17,18 @@ class UserOrderController extends Controller
         $request->validate([
             'payment_method' => 'required|in:vodafone_cash,orange_cash,instapay',
             'phone_number' => 'required|string',
-            'screenshot' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'screenshot' => 'required|image|max:2048',
         ]);
 
         // create payment
         $payment = Payment::create([
             'payment_method' => $request->input('payment_method'),
             'payment_status' => PaymentStatus::Pending,
-            'payment_amount' => $user->cart->total,
+            'payment_amount' => $user->cart->requiredTotal,
+            'required_amount' => $user->cart->requiredTotal,
+            'total' => $user->cart->total,
             'phone_number' => $request->input('phone_number'),
-            'screenshot' => $request->file('screenshot')->store('payments'),
+            'screenshot' => $request->file('screenshot')->store('public/payments'),
         ]);
 
         // create order

@@ -25,7 +25,7 @@ class CourseController extends Controller
     {
         $request->validate([
             'title' => 'required|max:255',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'thumbnail' => 'required|image|max:2048',
             'created_by' => 'required|max:255',
             'description' => 'required|string',
             'what_will_learn' => 'required|string',
@@ -65,9 +65,12 @@ class CourseController extends Controller
 
     public function update(Request $request, Course $course)
     {
+
+        // dump($request->all());
+        // die();
         $request->validate([
             'title' => 'required|max:255',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'thumbnail' => 'nullable|image|max:2048',
             'created_by' => 'required|max:255',
             'description' => 'required',
             'what_will_learn' => 'required',
@@ -77,9 +80,11 @@ class CourseController extends Controller
             'discount_price' => 'required',
         ]);
 
+
+
         $course->update([
             'title' => $request->title,
-            'thumbnail' => $request->thumbnail ? $request->thumbnail->store('thumbnails') : $course->thumbnail,
+            'thumbnail' => $request->thumbnail ? $request->thumbnail->store('public/thumbnails') : $course->thumbnail,
             'created_by' => $request->created_by,
             'description' => $request->description,
             'what_will_learn' => $request->what_will_learn,

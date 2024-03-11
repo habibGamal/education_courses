@@ -9,6 +9,7 @@ import { StarOutlined } from "@ant-design/icons";
 import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { Course } from "@/types";
 import { Link } from "@inertiajs/react";
+import imagePathResolver from "@/Helpers/imagePathResolver";
 
 const { Meta } = Card;
 
@@ -21,8 +22,15 @@ export default function EnrolledCourseCard({
 }) {
     return (
         <Card
-            style={{ width: 400 }}
-            cover={<img alt="example" src={course.thumbnail} />}
+            style={{ maxWidth: 400, width: "100%" }}
+            className="custom-ant-card-cover !rounded-xl overflow-clip bg-white"
+            cover={
+                <img
+                    className="!rounded-xl max-h-[275px] object-cover"
+                    alt="example"
+                    src={imagePathResolver(course.thumbnail)}
+                />
+            }
             actions={[
                 <Link href={route("enrolled-courses.show", id)}>
                     View Course
