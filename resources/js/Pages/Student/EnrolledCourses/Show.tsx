@@ -108,7 +108,7 @@ export default function Show({
 const ShowVideo = ({ url }: { url: string | undefined }) => (
     <iframe
         className="rounded-xl border-none min-h-[500px]"
-        src={"/" + url}
+        src={`/videos?url="${url}"`}
         width="100%"
         title="video"
     ></iframe>

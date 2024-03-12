@@ -13,6 +13,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\EnrolledCourseController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 /*
@@ -60,13 +61,14 @@ Route::get('/dashboard', function () {
     return redirect()->route('courses.index');
 })->middleware(['auth', 'admin', 'verified'])->name('dashboard');
 
-Route::get('/videos/{url}', function ($url) {
+Route::get('/videos', function (Request $request) {
+    $url = $request->query('url');
     return view('video', ['url' => $url]);
 })->name('videos');
 
 Route::get('/storage/videos/{videoName}/{key}', function ($videoName, $key) {
     return Storage::disk('secure')->download("{$videoName}/{$key}");
-})->middleware(['auth','accessResource'])->name('videos.key');
+})->middleware(['auth'])->name('videos.key');
 
 
 Route::any('/tiny-file-manager', function () {

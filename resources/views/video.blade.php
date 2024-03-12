@@ -21,11 +21,11 @@
     {{-- <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0"> --}}
 
-
+        {{$url}}
         {{-- <div class="max-w-6xl w-full mx-auto sm:px-6 lg:px-8"> --}}
             <video-js id="my_video_1" class="vjs-default-skin vjs-big-play-centered" controls preload="auto"
                 data-setup='{"fluid": true}'>
-                <source src="/storage/videos/v1/redfield.m3u8" type="application/x-mpegURL">
+                <source src="/storage/videos/intro/redfield.m3u8" type="application/x-mpegURL">
             </video-js>
 
             <script src="https://unpkg.com/video.js/dist/video.js"></script>
