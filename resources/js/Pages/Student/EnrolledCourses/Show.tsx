@@ -6,13 +6,15 @@ import useStatus from "@/Hooks/useStatus";
 import StudentLayout from "@/Layouts/StudentLayout";
 import { EnrolledCourses } from "@/types";
 import { Link } from "@inertiajs/react";
-import { Button, Layout, theme } from "antd";
+import { Button, Layout, Typography, theme } from "antd";
 import React, { useEffect, useMemo } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import Footer from "@/Components/Footer";
 
-const { Header, Content, Sider } = Layout;
+const { Content } = Layout;
+
+const { Paragraph } = Typography;
 
 Show.layout = null;
 export default function Show({
@@ -40,19 +42,8 @@ export default function Show({
     useStatus();
     console.log(resource, selectedResource);
 
-    console.log(resource?.video_url);
+    console.log(resource);
 
-    // make iframe height as its content
-    useEffect(() => {
-        setTimeout(() => {
-            const iframe = document.querySelector("iframe");
-            if (iframe) {
-                iframe.style.height =
-                    iframe.contentWindow?.document.body.scrollHeight + "px";
-            }
-            console.log(iframe);
-        }, 500);
-    }, [resource]);
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
@@ -106,10 +97,5 @@ export default function Show({
 }
 
 const ShowVideo = ({ url }: { url: string | undefined }) => (
-    <iframe
-        className="rounded-xl border-none min-h-[500px]"
-        src={`/videos?url="${url}"`}
-        width="100%"
-        title="video"
-    ></iframe>
+    <Paragraph copyable>{url}</Paragraph>
 );

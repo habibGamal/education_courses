@@ -19,6 +19,13 @@ class EnrolledCourseController extends Controller
     {
         $enrolledCourse = auth()->user()->enrolledCourses()->findOrFail($id);
         $enrolledCourse->load('course.blocks.resources:id,block_id,title,type,video_url,file_url,sort_order');
+        // replace value of video_url with encrypted value
+        $enrolledCourse->course->blocks->each(function ($block) {
+            $block->resources->each(function ($resource) {
+                $resource->video_url = $resource->video_url_encrypted;
+            });
+        });
+
         return inertia()->render('Student/EnrolledCourses/Show', [
             'enrolledCourse' => $enrolledCourse,
         ]);

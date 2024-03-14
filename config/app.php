@@ -168,8 +168,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
-        // UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         // Intervention\Image\Laravel\ServiceProvider::class
         // Intervention\Image\ImageManager::class,
         // Intervention\Image\ImageServiceProvider::class,

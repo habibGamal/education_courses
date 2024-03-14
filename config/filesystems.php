@@ -39,7 +39,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -47,7 +47,15 @@ return [
         'secure' => [
             'driver' => 'local',
             'root' => storage_path('app/secure'),
-            'url' => env('APP_URL').'/secure',
+            'url' => env('APP_URL') . '/secure',
+            'visibility' => 'private',
+            'throw' => false,
+        ],
+
+        'encrypt' => [
+            'driver' => 'local',
+            'root' => storage_path('app/encrypt'),
+            'url' => env('APP_URL') . '/encrypt',
             'visibility' => 'private',
             'throw' => false,
         ],

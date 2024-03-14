@@ -66,14 +66,19 @@ Route::get('/videos', function (Request $request) {
     return view('video', ['url' => $url]);
 })->name('videos');
 
+
+
+
+
 Route::get('/storage/videos/{videoName}/{key}', function ($videoName, $key) {
-    return Storage::disk('secure')->download("{$videoName}/{$key}");
-})->middleware(['auth'])->name('videos.key');
+    return Storage::disk('secure')->download("{$videoName}/{$key}", null, [
+        'Access-Control-Allow-Origin' => ['http://localhost:1420', 'https://tauri.localhost'],
+        'Access-Control-Allow-Credentials' => 'true',
+    ]);
+})
+    ->middleware(['auth:sanctum'])
+    ->name('videos.key');
 
-
-Route::any('/tiny-file-manager', function () {
-    return view('tinyfilemanager');
-})->middleware(['auth','admin'])->name('tiny-file-manager');
 
 Route::middleware('auth')->group(function () {
     Route::get('/user-dashboard', function () {

@@ -80,13 +80,6 @@ export default function AdminSider() {
             "students",
             <UserOutlined />
         ),
-        getItem(
-            <a href={route("tiny-file-manager")}>
-                {t("File Manager", "مدير الملفات")}
-            </a>,
-            "file_manager",
-            <FolderOpenOutlined />
-        ),
     ];
     return (
         <Sider

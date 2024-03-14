@@ -2,7 +2,10 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-
+    # <IfModule mod_headers.c>
+    #     Header set Cross-Origin-Resource-Policy 'cross-origin'
+    #     Header always set Access-Control-Allow-Origin "*"
+    # </IfModule>
     RewriteEngine On
 
     # Handle Authorization Header
