@@ -1,92 +1,28 @@
+import CartItem from "@/Components/CartItem";
+import { useTranslate } from "@/Layouts/Config";
 import HomeLayout from "@/Layouts/HomeLayout";
 import { Cart } from "@/types";
-import { Link, router } from "@inertiajs/react";
-import {
-    Button,
-    Descriptions,
-    DescriptionsProps,
-    Divider,
-    Empty,
-    Input,
-    Table,
-    Typography,
-} from "antd";
+import { Head, router } from "@inertiajs/react";
+import { Button, Divider, Typography } from "antd";
 import React from "react";
-import { DeleteOutlined } from "@ant-design/icons";
-import imagePathResolver from "@/Helpers/imagePathResolver";
-import CartItem from "@/Components/CartItem";
 
 export default function Show({ cart }: { cart: Cart }) {
-    const dataSource = cart.cart_items?.map((item) => ({
-        key: item.id,
-        ...item,
-        courseId: item.course?.id,
-        thumbnail: item.course?.thumbnail,
-        title: item.course?.title,
-        price: item.course?.price,
-        discountPrice: item.course?.discount_price,
-    }));
-
-    const columns = [
-        {
-            title: "",
-            dataIndex: "thumbnail",
-            key: "thumbnail",
-            render: (thumbnail: string) => (
-                <img
-                    className="w-36 block mx-auto rounded shadow"
-                    src={thumbnail}
-                    alt="thumbnail"
-                />
-            ),
-        },
-        {
-            title: "Title",
-            dataIndex: "title",
-            key: "title",
-            render: (title: string, record: any) => (
-                <Link
-                    className="text-black"
-                    href={route("browse.courses.show", record.courseId)}
-                >
-                    {title}
-                </Link>
-            ),
-        },
-        {
-            title: "Price",
-            dataIndex: "price",
-            key: "price",
-        },
-
-        {
-            title: "Discount Price",
-            dataIndex: "discountPrice",
-            key: "discountPrice",
-        },
-        {
-            title: "Action",
-            key: "action",
-            render: (text: any, record: any) => (
-                <Button danger type="primary">
-                    Remove
-                </Button>
-            ),
-        },
-    ];
-
     const total = cart.cart_items?.reduce((acc, item) => {
         return acc + item.course?.discount_price!;
     }, 0);
+
     const subTotal = cart.cart_items?.reduce((acc, item) => {
         return acc + item.course?.price!;
     }, 0);
 
+    const t = useTranslate();
+
     return (
         <>
+            <Head title="Cart" />
             <div className="bg-designer min-h-[400px] grid place-items-center">
                 <Typography.Title level={1} className="!text-white">
-                    Cart
+                    {t("Cart", "عربة التسوق")}
                 </Typography.Title>
             </div>
             {
@@ -97,17 +33,20 @@ export default function Show({ cart }: { cart: Cart }) {
                             className="max-w-[200px]"
                             src="/assets/empty_cart.png"
                         />
-                        <Divider type="vertical" className="h-48" />
+                        <Divider
+                            type="vertical"
+                            className="h-48 !mx-4 hidden md:block"
+                        />
                         <Typography.Title
                             level={2}
                             type="secondary"
                             className="text-center  block mt-4"
                         >
-                            Your cart is empty
+                            {t("Your cart is empty", "عربة التسوق فارغة")}
                         </Typography.Title>
                     </div>
                 ) : (
-                    <div className="mx-auto mt-8 max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
+                    <div className="mx-auto mt-8 max-w-5xl justify-center px-6 md:flex gap-4 xl:px-0">
                         <div className="rounded-lg md:w-2/3">
                             {cart.cart_items?.map((item) => (
                                 <CartItem
@@ -122,31 +61,37 @@ export default function Show({ cart }: { cart: Cart }) {
                                 className="my-8 block ml-auto"
                                 onClick={() => router.post(route("cart.clear"))}
                             >
-                                Clear Cart
+                                {t("Clear Cart", "مسح العربة")}
                             </Button>
                         </div>
                         <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
                             <div className="mb-2 flex justify-between">
-                                <p className="text-gray-700">Subtotal</p>
                                 <p className="text-gray-700">
-                                    {subTotal?.toFixed(2)} EGP
+                                    {t("Subtotal", "الاجمالي")}
+                                </p>
+                                <p className="text-gray-700">
+                                    {subTotal?.toFixed(2)} {t("EGP", "جنيه")}
                                 </p>
                             </div>
                             <div className="flex justify-between">
-                                <p className="text-gray-700">After Discount</p>
                                 <p className="text-gray-700">
-                                    {total?.toFixed(2)} EGP
+                                    {t("After Discount", "بعد الخصم")}
+                                </p>
+                                <p className="text-gray-700">
+                                    {total?.toFixed(2)} {t("EGP", "جنيه")}
                                 </p>
                             </div>
                             <hr className="my-4" />
                             <div className="flex justify-between">
-                                <p className="text-lg font-bold">Total</p>
+                                <p className="text-lg font-bold">
+                                    {t("Total", "الاجمالي")}
+                                </p>
                                 <div className="">
                                     <p className="mb-1 text-lg font-bold">
-                                        {total?.toFixed(2)} EGP
+                                        {total?.toFixed(2)} {t("EGP", "جنيه")}
                                     </p>
                                     <p className="text-sm text-gray-700">
-                                        including VAT
+                                        {t("including VAT", "شامل الضريبة")}
                                     </p>
                                 </div>
                             </div>
@@ -157,7 +102,7 @@ export default function Show({ cart }: { cart: Cart }) {
                                 type="primary"
                                 className="mt-6 w-full "
                             >
-                                Proceed to checkout
+                                {t("Proceed to checkout", "الذهاب للدفع")}
                             </Button>
                         </div>
                     </div>

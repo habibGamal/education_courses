@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AdminOrderController extends Controller
 {
@@ -32,7 +32,7 @@ class AdminOrderController extends Controller
             })->toArray()
         );
 
-        // TODO: send email to user
+        Mail::to($user->email)->send(new \App\Mail\CourseAccepted($order, $user));
 
         return redirect()->back()->with('success', ['Payment accepted', 'تم قبول عملية الدفع']);
     }
@@ -48,7 +48,8 @@ class AdminOrderController extends Controller
         ]);
 
         $user = $order->load('user')->user;
-        // TODO: send email to user
+
+        Mail::to($user->email)->send(new \App\Mail\CourseRejected($order, $user));
 
         return redirect()->back();
     }

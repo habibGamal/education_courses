@@ -11,6 +11,7 @@ import React, { useEffect, useMemo } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import Footer from "@/Components/Footer";
+import { useTranslate } from "@/Layouts/Config";
 
 const { Content } = Layout;
 
@@ -40,9 +41,6 @@ export default function Show({
     );
 
     useStatus();
-    console.log(resource, selectedResource);
-
-    console.log(resource);
 
 
     return (
@@ -65,9 +63,22 @@ export default function Show({
                             borderRadius: borderRadiusLG,
                         }}
                     >
-                        {resource?.type === "video" ? (
+                        {resource === undefined && (
+                            <iframe
+                                src={
+                                    enrolledCourse.course!.promo_video_link ??
+                                    ""
+                                }
+                                width="100%"
+                                height="500"
+                                allowFullScreen
+                                className="border-none rounded-xl"
+                            ></iframe>
+                        )}
+                        {resource && resource.type === "video" && (
                             <ShowVideo url={resource?.video_url} />
-                        ) : (
+                        )}
+                        {resource && resource.type === "file" && (
                             <div className="grid min-h-[300px] place-items-center">
                                 <img
                                     className="w-[100px]"
@@ -78,8 +89,8 @@ export default function Show({
                                         {resource?.title}
                                     </h1>
                                     <a
-                                        href={`/storage/${resource?.file_url}`}
-                                        download
+                                        href={resource?.file_url}
+                                        target="_blank"
                                     >
                                         <Button size="large" type="primary">
                                             Download
@@ -96,6 +107,28 @@ export default function Show({
     );
 }
 
-const ShowVideo = ({ url }: { url: string | undefined }) => (
-    <Paragraph copyable>{url}</Paragraph>
-);
+const ShowVideo = ({ url }: { url: string | undefined }) => {
+    const t = useTranslate();
+    return (
+        <div className="flex flex-col gap-4">
+            {/* <iframe
+                src="https://www.youtube.com/embed/1y_kfWUCFDQ"
+                width="100%"
+                height="500"
+                allowFullScreen
+                className="border-none rounded-xl"
+            ></iframe> */}
+            <Paragraph className="text-lg rounded-xl bg-gray-100 p-2" copyable>
+                {url}
+            </Paragraph>
+            <a
+                href="https://drive.google.com/drive/folders/1ogcFEhTVaDdboXfUBq94gt50Fq9BCVij?usp=sharing"
+                target="_blank"
+            >
+                <Button size="large" type="primary">
+                    {t("Download video player", "تحميل مشغل الفيديو")}
+                </Button>
+            </a>
+        </div>
+    );
+};

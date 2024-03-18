@@ -86,7 +86,7 @@ export default function Index({ orders }: { orders: Paginate<Order> }) {
         <>
             <Head title="Orders" />
             <Search
-                placeholder={t("Search Email", "بحث بالبريد")}
+                placeholder={t("Search Email", "بحث بالبريد") as string}
                 onSearch={onSearch}
                 className="w-full mb-6"
             />

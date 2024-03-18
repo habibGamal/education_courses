@@ -37,9 +37,11 @@ export interface Course {
     price: number;
     discount_price: number;
     promo_video_link: string | null;
+    blocks_count?: number;
     createdAt: Date;
     updatedAt: Date;
     blocks?: Block[];
+    keywords?: string;
 }
 
 export interface Block {

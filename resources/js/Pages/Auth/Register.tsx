@@ -4,6 +4,7 @@ import { Form, Input, Button, Select } from "antd";
 import { Head, Link, router, useForm } from "@inertiajs/react";
 import { useTranslate } from "@/Layouts/Config";
 import axios from "axios";
+import useFormErrors from "@/Hooks/useFormErrors";
 
 interface Country {
     name: string;
@@ -38,11 +39,21 @@ export default function Register() {
     ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
     console.log(countries);
+
+    const [form] = Form.useForm();
+
+    useFormErrors(form);
+
     return (
         <>
             <Head title="Register" />
 
-            <Form name="register" onFinish={onFinish} scrollToFirstError>
+            <Form
+                name="register"
+                form={form}
+                onFinish={onFinish}
+                scrollToFirstError
+            >
                 <Form.Item
                     name="name"
                     rules={[
@@ -56,7 +67,7 @@ export default function Register() {
                         },
                     ]}
                 >
-                    <Input placeholder="Name" />
+                    <Input placeholder={t("Name", "الاسم")} />
                 </Form.Item>
                 <Form.Item
                     name="country"
@@ -73,7 +84,7 @@ export default function Register() {
                 >
                     <Select
                         showSearch
-                        placeholder="Select a country"
+                        placeholder={t("Country", "البلد")}
                         optionFilterProp="children"
                         options={countries.map((country) => ({
                             label: country.name,
@@ -96,7 +107,7 @@ export default function Register() {
                         },
                     ]}
                 >
-                    <Input placeholder="City" />
+                    <Input placeholder={t("City", "المدينة")} />
                 </Form.Item>
                 <Form.Item
                     name="phone"
@@ -123,6 +134,7 @@ export default function Register() {
                                 }))}
                             />
                         }
+                        placeholder={t("Phone Number", "رقم الهاتف")}
                     />
                 </Form.Item>
 
@@ -145,7 +157,7 @@ export default function Register() {
                         },
                     ]}
                 >
-                    <Input placeholder="Email" />
+                    <Input placeholder={t("Email", "البريد الالكتروني")} />
                 </Form.Item>
 
                 <Form.Item
@@ -161,7 +173,9 @@ export default function Register() {
                     ]}
                     hasFeedback
                 >
-                    <Input.Password placeholder="Password" />
+                    <Input.Password
+                        placeholder={t("Password", "كلمة المرور")}
+                    />
                 </Form.Item>
 
                 <Form.Item
@@ -193,7 +207,9 @@ export default function Register() {
                         }),
                     ]}
                 >
-                    <Input.Password placeholder="Confirm Password" />
+                    <Input.Password
+                        placeholder={t("Confirm Password", "تأكيد كلمة المرور")}
+                    />
                 </Form.Item>
 
                 <Form.Item>

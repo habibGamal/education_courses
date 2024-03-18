@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
 
-    $courses = Course::latest()->limit(6)->get();
+    $courses = Course::latest()->limit(6)->withCount('blocks')->get();
     return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -76,13 +76,13 @@ Route::get('/storage/videos/{videoName}/{key}', function ($videoName, $key) {
         'Access-Control-Allow-Credentials' => 'true',
     ]);
 })
-    ->middleware(['auth:sanctum'])
+    ->middleware(['auth:sanctum','accessResource'])
     ->name('videos.key');
 
 
 Route::middleware('auth')->group(function () {
     Route::get('/user-dashboard', function () {
-        return Inertia::render('UserDashboard');
+        return redirect()->route('enrolled-courses.index');
     })->name('user-dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

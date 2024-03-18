@@ -29,6 +29,7 @@ class Course extends Model
         'promo_video_link',
     ];
 
+
     /**
      * Get the enrolled courses for the course.
      */

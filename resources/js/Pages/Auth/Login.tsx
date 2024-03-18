@@ -1,3 +1,4 @@
+import useFormErrors from "@/Hooks/useFormErrors";
 import { useTranslate } from "@/Layouts/Config";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, router } from "@inertiajs/react";
@@ -23,6 +24,10 @@ export default function Login({
 
     const t = useTranslate();
 
+    const [form] = Form.useForm();
+
+    useFormErrors(form);
+
     return (
         <>
             <Head title="Log in" />
@@ -34,6 +39,7 @@ export default function Login({
             )}
             <Form
                 name="basic"
+                form={form}
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
                 style={{ maxWidth: 600 }}
@@ -51,6 +57,13 @@ export default function Login({
                             message: t(
                                 "Please input your email!",
                                 "من فضلك أدخل بريدك الإلكتروني!"
+                            ),
+                        },
+                        {
+                            type: "email",
+                            message: t(
+                                "The input is not valid E-mail!",
+                                "البريد الإلكتروني غير صالح!"
                             ),
                         },
                     ]}

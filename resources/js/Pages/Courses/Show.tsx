@@ -1,5 +1,6 @@
 import imagePathResolver from "@/Helpers/imagePathResolver";
 import useModal from "@/Hooks/useModal";
+import { useTranslate } from "@/Layouts/Config";
 import HomeLayout from "@/Layouts/HomeLayout";
 import { Course, Resource } from "@/types";
 import { ShoppingCartOutlined } from "@ant-design/icons";
@@ -14,7 +15,7 @@ import {
     PlayIcon,
     UserGroupIcon,
 } from "@heroicons/react/24/outline";
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import {
     Button,
     Collapse,
@@ -54,18 +55,36 @@ export default function Show({ course }: { course: Course }) {
         ),
     }));
     const promoModal = useModal();
+    const t = useTranslate();
     return (
         <>
+            <Head>
+                <title>{course.title}</title>
+                <meta
+                    name="description"
+                    content={course.description + " " + course.keywords}
+                />
+                <meta property="og:title" content={course.title} />
+                <meta property="og:description" content={course.description} />
+                <meta
+                    property="og:image"
+                    content={imagePathResolver(course.thumbnail)}
+                />
+                <meta property="og:url" content={window.location.href} />
+            </Head>
             <Modal title={course.title} {...promoModal} footer={null}>
-                <video
-                    src="https://www.w3schools.com/html/mov_bbb.mp4"
-                    controls
-                    className="w-full"
-                ></video>
+                <iframe
+                    width="100%"
+                    height="300px"
+                    src={course.promo_video_link ?? ""}
+                    title={course.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                ></iframe>
             </Modal>
             <div className="bg-designer min-h-[400px] grid place-items-center">
                 <Typography.Title level={1} className="!text-white">
-                    Course Details
+                    {t("Course Details", "تفاصيل الدورة")}
                 </Typography.Title>
             </div>
             <div className="container -mt-6 relative z-10">
@@ -75,14 +94,16 @@ export default function Show({ course }: { course: Course }) {
                             {course.title}
                         </Typography.Title>
                         <div className="flex gap-2 items-center">
-                            <Rate disabled defaultValue={2} />
+                            <Rate disabled defaultValue={5} />
                             <Typography.Text>4.9 (20)</Typography.Text>
                         </div>
                         <Divider />
                         <div>
                             <Typography.Title level={3}>
-                                <DocumentTextIcon className="w-5 mr-2" />
-                                Description
+                                <DocumentTextIcon
+                                    className={`w-5 ${t("mr-2", "ml-2")}`}
+                                />
+                                {t("Description", "الوصف")}
                             </Typography.Title>
                             <Typography.Text>
                                 {course.description}
@@ -90,8 +111,10 @@ export default function Show({ course }: { course: Course }) {
                         </div>
                         <div>
                             <Typography.Title level={3}>
-                                <AcademicCapIcon className="w-5 mr-2" />
-                                What you'll learn
+                                <AcademicCapIcon
+                                    className={`w-5 ${t("mr-2", "ml-2")}`}
+                                />
+                                {t("What you will learn", "ما ستتعلمه")}
                             </Typography.Title>
                             <Typography.Text>
                                 {course.what_will_learn}
@@ -99,8 +122,10 @@ export default function Show({ course }: { course: Course }) {
                         </div>
                         <div>
                             <Typography.Title level={3}>
-                                <CheckBadgeIcon className="w-5 mr-2" />
-                                Requirements
+                                <CheckBadgeIcon
+                                    className={`w-5 ${t("mr-2", "ml-2")}`}
+                                />
+                                {t("Requirements", "المتطلبات")}
                             </Typography.Title>
                             <Typography.Text>
                                 {course.requirements}
@@ -108,13 +133,16 @@ export default function Show({ course }: { course: Course }) {
                         </div>
                         <div>
                             <Typography.Title level={3}>
-                                <FolderIcon className="w-5 mr-2" />
-                                Curriculum
+                                <FolderIcon
+                                    className={`w-5 ${t("mr-2", "ml-2")}`}
+                                />
+                                {t("Course Content", "محتوى الدورة")}
                                 <Typography.Text
                                     type="secondary"
                                     className="mx-2"
                                 >
-                                    • {course.blocks?.length} lectures
+                                    • {course.blocks?.length}{" "}
+                                    {t("lesson", "درس")}
                                 </Typography.Text>
                             </Typography.Title>
                             <Collapse
@@ -132,7 +160,11 @@ export default function Show({ course }: { course: Course }) {
                                 alt="course"
                             />
                             <span
-                                onClick={() => promoModal.showModal()}
+                                onClick={() =>
+                                    course.promo_video_link
+                                        ? promoModal.showModal()
+                                        : null
+                                }
                                 className="popup-video grid place-items-center "
                             >
                                 <PlayIcon className="w-12 h-12" />
@@ -140,37 +172,40 @@ export default function Show({ course }: { course: Course }) {
                         </div>
                         <div className="my-4">
                             <Typography.Text strong className="text-4xl">
-                                {course.discount_price} EGP
+                                {course.discount_price} {t("EGP", "جنيه")}{" "}
                             </Typography.Text>
                             <Typography.Text
                                 delete
                                 type="secondary"
                                 className="text-2xl"
                             >
-                                {course.price} EGP
+                                {course.price} {t("EGP", "جنيه")}
                             </Typography.Text>
                         </div>
                         <Info
                             icon={<AdjustmentsHorizontalIcon className="w-4" />}
-                            featureName="Level"
+                            featureName={t("Level", "المستوى")}
                             featureValue={course.level}
                         />
                         <Divider className="my-2" />
                         <Info
                             icon={<ComputerDesktopIcon className="w-4" />}
-                            featureName="Lectures"
-                            featureValue={`${course.blocks?.length} Blocks`}
+                            featureName={t("Chapters", "الفصول")}
+                            featureValue={`${course.blocks?.length} ${t(
+                                "Chapters",
+                                "فصل"
+                            )}`}
                         />
                         <Divider className="my-2" />
                         <Info
                             icon={<ClockIcon className="w-4" />}
-                            featureName="Duration"
+                            featureName={t("Duration", "المدة")}
                             featureValue={course.duration}
                         />
                         <Divider className="my-2" />
                         <Info
                             icon={<UserGroupIcon className="w-4" />}
-                            featureName="Total Enrolled"
+                            featureName={t("Enrolled", "المسجلين")}
                             featureValue={course.total_enrolled.toString()}
                         />
                         <Button
@@ -185,7 +220,7 @@ export default function Show({ course }: { course: Course }) {
                                 })
                             }
                         >
-                            Add to Cart
+                            {t("Add to Cart", "أضف إلى السلة")}
                         </Button>
                     </div>
                 </div>
@@ -200,7 +235,7 @@ const Info = ({
     featureValue,
 }: {
     icon: ReactNode;
-    featureName: string;
+    featureName: ReactNode;
     featureValue: string;
 }) => {
     return (

@@ -90,7 +90,7 @@ export default function Edit({
                     },
                 ]}
             />
-            <IsolateFormStyle title={t("Edit Block Details", "تعديل البلوك")}>
+            <IsolateFormStyle title={t("Edit Block Details", "تعديل البلوك") as string}>
                 <BlockForm
                     form={form}
                     onFinish={onFinish}

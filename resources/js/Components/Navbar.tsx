@@ -1,9 +1,9 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
     Bars3Icon,
-    BellIcon,
     XMarkIcon,
+    LanguageIcon,
     RectangleStackIcon,
     ArrowRightEndOnRectangleIcon,
     Cog6ToothIcon,
@@ -11,6 +11,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link, usePage } from "@inertiajs/react";
 import { PageProps, User } from "@/types";
+import { Button } from "antd";
+import { useAppStatus, useTranslate } from "@/Layouts/Config";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
@@ -19,7 +21,11 @@ function classNames(...classes: string[]) {
 export default function Navbar() {
     const user = (usePage().props as PageProps<any>).auth.user as User | null;
     const isStudent = user && user.role === "user";
+    const { changeLang } = useAppStatus();
+    const t = useTranslate();
+    const [currentActive, setCurrentActive] = useState<string | null>(null);
     const navigation: {
+        key: string;
         name: string;
         icon: JSX.Element;
         href: string;
@@ -27,7 +33,8 @@ export default function Navbar() {
         method?: string;
     }[] = [
         {
-            name: "Catalog",
+            key: "catalog",
+            name: t("Catalog", "الدورات") as string,
             icon: (
                 <RectangleStackIcon
                     className="inline h-6 w-6"
@@ -35,15 +42,16 @@ export default function Navbar() {
                 />
             ),
             href: route("browse.courses.index"),
-            current: true,
+            current: false,
         },
     ];
     if (user === null) {
         navigation.push({
-            name: "Login",
+            key: "login",
+            name: t("Login", "تسجيل الدخول") as string,
             icon: (
                 <ArrowRightEndOnRectangleIcon
-                    className="inline h-6 w-6"
+                    className="inline h-6 w-6 rtl:rotate-180"
                     aria-hidden="true"
                 />
             ),
@@ -53,7 +61,8 @@ export default function Navbar() {
     }
     if (isStudent) {
         navigation.push({
-            name: "Cart",
+            key: "cart",
+            name: t("Cart", "العربة") as string,
             icon: (
                 <ShoppingCartIcon
                     className="inline h-6 w-6"
@@ -70,17 +79,15 @@ export default function Navbar() {
         method?: string;
     }[] = [
         {
-            name: "Dashboard",
+            name: t("Dashboard", "لوحة التحكم") as string,
             href: isStudent ? route("user-dashboard") : route("dashboard"),
         },
         {
-            name: "Logout",
+            name: t("Logout", "تسجيل الخروج") as string,
             href: route("logout"),
             method: "post",
         },
     ];
-
-
 
     return (
         <Disclosure as="nav" className="bg-transparent">
@@ -125,15 +132,13 @@ export default function Navbar() {
                                                 key={item.name}
                                                 href={item.href}
                                                 className={classNames(
-                                                    item.current
+                                                    item.key === currentActive
                                                         ? "bg-secondary-900 text-white"
                                                         : "text-gray-300 hover:bg-secondary-700 hover:text-white",
                                                     "rounded-md flex items-center gap-2 px-3 py-2 text-sm font-medium"
                                                 )}
-                                                aria-current={
-                                                    item.current
-                                                        ? "page"
-                                                        : undefined
+                                                onClick={() =>
+                                                    setCurrentActive(item.key)
                                                 }
                                             >
                                                 {item.icon}
@@ -143,9 +148,27 @@ export default function Navbar() {
                                     </div>
                                 </div>
                             </div>
-                            <div className={`${user?"":"hidden"} absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0`}>
-                                {/* Profile dropdown */}
-                                <Menu as="div" className="relative ml-3">
+                            <div
+                                className={` absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0`}
+                            >
+                                <Button
+                                    type="link"
+                                    onClick={() => {
+                                        changeLang(
+                                            t("ar", "en") as "ar" | "en"
+                                        );
+                                    }}
+                                    className="relative text-primary-400 hover:!text-primary-500"
+                                >
+                                    <LanguageIcon className=" h-6 w-6 rounded-full" />
+                                </Button>
+
+                                <Menu
+                                    as="div"
+                                    className={`relative ml-3 ${
+                                        user ? "" : "hidden"
+                                    }`}
+                                >
                                     <div>
                                         <Menu.Button className="relative p-0 border-none flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                             <span className="absolute -inset-1.5" />
@@ -164,7 +187,7 @@ export default function Navbar() {
                                         leaveFrom="transform opacity-100 scale-100"
                                         leaveTo="transform opacity-0 scale-95"
                                     >
-                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <Menu.Items className="absolute ltr:right-0 rtl:left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                             {menu.map((item) => (
                                                 <Menu.Item key={item.name}>
                                                     {({ active }) => (
@@ -176,7 +199,12 @@ export default function Navbar() {
                                                                     : "",
                                                                 "block px-4 py-2 text-sm text-gray-700"
                                                             )}
-                                                            method={(item.method as 'get'|'post')?? 'get'}
+                                                            method={
+                                                                (item.method as
+                                                                    | "get"
+                                                                    | "post") ??
+                                                                "get"
+                                                            }
                                                         >
                                                             {item.name}
                                                         </Link>
@@ -198,7 +226,7 @@ export default function Navbar() {
                                     as="a"
                                     href={item.href}
                                     className={classNames(
-                                        item.current
+                                        item.key === currentActive
                                             ? "bg-gray-900 text-white"
                                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
                                         "block rounded-md px-3 py-2 text-base font-medium"
@@ -206,6 +234,7 @@ export default function Navbar() {
                                     aria-current={
                                         item.current ? "page" : undefined
                                     }
+                                    onClick={() => setCurrentActive(item.key)}
                                 >
                                     {item.name}
                                 </Disclosure.Button>

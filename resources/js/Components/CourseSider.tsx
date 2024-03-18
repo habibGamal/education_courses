@@ -80,7 +80,6 @@ export default function CourseSider({
             <SiderLogo />
             <Menu
                 theme="dark"
-                defaultSelectedKeys={["1"]}
                 mode="inline"
                 items={items}
                 onSelect={(item) => {

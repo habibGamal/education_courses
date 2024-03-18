@@ -109,20 +109,11 @@ export default function Edit({
                 </Form.Item>
                 {resourceType === "file" ? (
                     <Form.Item
-                        label={t("File Path", "مسار الملف")}
+                        label={t("File url", "رابط الملف")}
                         name="file_url"
                         rules={[{ required: true }]}
                     >
-                        <Select
-                            showSearch
-                            placeholder="Select file path"
-                            optionFilterProp="children"
-                            filterOption={filterOption}
-                            options={filesDirectories.map((directory) => ({
-                                value: directory,
-                                label: directory,
-                            }))}
-                        />
+                        <Input />
                     </Form.Item>
                 ) : (
                     <Form.Item

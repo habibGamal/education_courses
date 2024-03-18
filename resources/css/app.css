@@ -7,6 +7,18 @@
     font-family: "Space Grotesk";
 }
 
+html[dir="rtl"] * {
+    font-family: "Tajawal";
+}
+
+.space-grotesk {
+    font-family: "Space Grotesk" !important;
+}
+
+.tajawal {
+    font-family: "Tajawal" !important;
+}
+
 body {
     margin: 0;
     background-color: #f6f8fb;
@@ -132,12 +144,10 @@ body {
     }
 }
 
-
 .custom-ant-card-cover .ant-card-cover {
     padding: 1rem;
     padding-bottom: 0;
 }
-
 
 .arrows .r-arrow {
     transform: rotateZ(302deg) rotateX(180deg);
@@ -145,4 +155,22 @@ body {
 
 .arrows .l-arrow {
     transform: rotateZ(122deg) rotateX(180deg);
+}
+
+.ltr,
+.ltr * {
+    direction: ltr;
+}
+
+.rtl,
+.rtl * {
+    direction: rtl;
+}
+
+.line-h-0 {
+    line-height: 0 !important;
+}
+
+[dir="ltr"] .ltr-rotate-x-180 {
+    transform: rotateY(180deg);
 }

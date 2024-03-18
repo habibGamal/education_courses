@@ -10,30 +10,39 @@ import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { Course } from "@/types";
 import { Link } from "@inertiajs/react";
 import imagePathResolver from "@/Helpers/imagePathResolver";
+import { useTranslate } from "@/Layouts/Config";
 
 const { Meta } = Card;
 
 export default function CourseCard({ course }: { course: Course }) {
+    const t = useTranslate();
+    console.log(course);
     return (
         <Card
-            style={{ maxWidth: 400,width: "100%"}}
+            style={{ maxWidth: 400, width: "100%" }}
             className="custom-ant-card-cover !rounded-xl overflow-clip bg-white"
-            cover={<img className="!rounded-xl max-h-[275px] object-cover" alt="example" src={imagePathResolver(course.thumbnail)} />}
+            cover={
+                <img
+                    className="!rounded-xl max-h-[275px] object-cover"
+                    alt="example"
+                    src={imagePathResolver(course.thumbnail)}
+                />
+            }
             actions={[
                 <div className="flex items-center gap-2 py-1 justify-center">
                     <ComputerDesktopIcon className="w-4" />
                     <Typography.Text key="lessons" className="">
-                        11 Lesson
+                        {course.blocks_count} {t("Lessons", "درس")}
                     </Typography.Text>
                 </div>,
-                <Link href={route("browse.courses.show", course.id)}>
-                    View Course
+                <Link className="" href={route("browse.courses.show", course.id)}>
+                    {t("View Course", "عرض الدورة")}
                 </Link>,
             ]}
         >
             <div className="flex justify-between items-center mb-4">
                 <Tag bordered={false} color="green" className="text-sm">
-                    sale
+                    {t("sale", "خصم")}
                 </Tag>
                 <span className="flex gap-2 items-center">
                     <StarOutlined className="text-yellow-400" />
@@ -41,9 +50,7 @@ export default function CourseCard({ course }: { course: Course }) {
                 </span>
             </div>
             <Meta
-                title={
-                    course.title
-                }
+                title={course.title}
                 description={
                     <Typography.Text type="secondary" ellipsis>
                         {course.description}
@@ -52,10 +59,10 @@ export default function CourseCard({ course }: { course: Course }) {
             />
             <div className="mt-2">
                 <Typography.Text strong className="text-2xl">
-                    {course.discount_price} EGP
+                    {course.discount_price} {t("EGP", "جنيه")} {" "}
                 </Typography.Text>
                 <Typography.Text delete type="secondary">
-                    {course.price} EGP
+                    {course.price} {t("EGP", "جنيه")}
                 </Typography.Text>
             </div>
         </Card>

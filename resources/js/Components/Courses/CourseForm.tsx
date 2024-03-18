@@ -1,11 +1,9 @@
-import React from "react";
-
-import { Form, Input, Button, FormInstance } from "antd";
 import FileUpload from "@/Components/FileUpload";
-import { useTranslate } from "@/Layouts/Config";
-import { Course } from "@/types";
 import imagePathResolver from "@/Helpers/imagePathResolver";
 import useFormErrors from "@/Hooks/useFormErrors";
+import { useTranslate } from "@/Layouts/Config";
+import { Course } from "@/types";
+import { Button, Form, FormInstance, Input } from "antd";
 
 export default function CourseForm({
     form,
@@ -36,6 +34,13 @@ export default function CourseForm({
                 label={t("Title", "العنوان")}
                 name="title"
                 rules={[{ required: true, max: 255 }]}
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                label={t("Promo Video", "فيديو ترويجي")}
+                name="promo_video_link"
+                // rules={[{ required: true }]}
             >
                 <Input />
             </Form.Item>

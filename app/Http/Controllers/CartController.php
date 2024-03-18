@@ -29,6 +29,10 @@ class CartController extends Controller
         if ($user->cart->cartItems->contains('course_id', $courseId)) {
             return redirect()->back()->with('error', ['Course already in cart', 'الدورة موجودة بالفعل في السلة']);
         }
+        // if user already enrolled in the course then redirect him back with error
+        if ($user->enrolledCourses()->where('course_id', $courseId)->exists()) {
+            return redirect()->back()->with('error', ['You are already enrolled', 'انت تملك هذه الدورة بالفعل']);
+        }
 
         $user->cart->cartItems()->create([
             'course_id' => $courseId,

@@ -20,7 +20,7 @@ export const useAppStatus = () => {
 
 export const useTranslate = () => {
     const [{ lang }] = React.useContext(AppStatusContext)!;
-    const t = (en: string, ar: string) => {
+    const t = (en: React.ReactNode, ar: React.ReactNode):any => {
         return lang === "ar" ? ar : en;
     };
     return t;
@@ -28,7 +28,7 @@ export const useTranslate = () => {
 
 export default function Config({ children }: { children: React.ReactNode }) {
     const [appState, setAppState] = useState<AppState>({
-        lang: "en",
+        lang: "ar",
     });
     useEffect(() => {
         const lang = localStorage.getItem("lang") as typeof appState.lang;
@@ -68,7 +68,7 @@ export default function Config({ children }: { children: React.ReactNode }) {
                         colorPrimary: "#EAB308",
                         colorError: "#bd5e5f",
                         borderRadius: 4,
-                        // fontSize:18
+                        fontSize:16,
                         fontFamily: "Space Grotesk",
                         // colorBgBase: "#000"
                     },
