@@ -111,13 +111,13 @@ const ShowVideo = ({ url }: { url: string | undefined }) => {
     const t = useTranslate();
     return (
         <div className="flex flex-col gap-4">
-            {/* <iframe
-                src="https://www.youtube.com/embed/1y_kfWUCFDQ"
+            <iframe
+                src="https://www.youtube.com/embed/KAkfSznCUUU?si=Kmeuu4aOgwx9KQQW"
                 width="100%"
                 height="500"
                 allowFullScreen
                 className="border-none rounded-xl"
-            ></iframe> */}
+            ></iframe>
             <Paragraph className="text-lg rounded-xl bg-gray-100 p-2" copyable>
                 {url}
             </Paragraph>

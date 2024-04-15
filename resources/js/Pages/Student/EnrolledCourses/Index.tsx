@@ -16,10 +16,23 @@ export default function Index({
     const t = useTranslate();
     useHeaderTitle(<HeaderTitle title={t("My Courses", "كورساتي")} />);
     return (
-        <div className="grid grid-cols-3 gap-4 justify-items-center">
-            {enrolledCourses.map((enrolledCourse) => (
-                <EnrolledCourseCard key={enrolledCourse.id} id={enrolledCourse.id} course={enrolledCourse.course!} />
-            ))}
-        </div>
+        <>
+            <iframe
+                src="https://www.youtube.com/embed/KAkfSznCUUU?si=Kmeuu4aOgwx9KQQW"
+                width="100%"
+                height="500"
+                allowFullScreen
+                className="border-none rounded-xl"
+            ></iframe>
+            <div className="grid grid-cols-3 gap-4 justify-items-center">
+                {enrolledCourses.map((enrolledCourse) => (
+                    <EnrolledCourseCard
+                        key={enrolledCourse.id}
+                        id={enrolledCourse.id}
+                        course={enrolledCourse.course!}
+                    />
+                ))}
+            </div>
+        </>
     );
 }

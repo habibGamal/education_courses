@@ -174,3 +174,7 @@ body {
 [dir="ltr"] .ltr-rotate-x-180 {
     transform: rotateY(180deg);
 }
+
+.ant-ribbon-wrapper {
+    width: 100%;
+}

@@ -11,7 +11,7 @@ class UserOrderController extends Controller
 {
     public function placeOrder(Request $request)
     {
-        $user = auth()->user()->load('cart.cartItems.course');
+        $user = auth()->user()->load('cart.cartItems.item');
 
         // validate payment details
         $request->validate([
@@ -39,8 +39,9 @@ class UserOrderController extends Controller
         // create order items
         foreach ($user->cart->cartItems as $cartItem) {
             $order->orderItems()->create([
-                'course_id' => $cartItem->course_id,
-                'price' => $cartItem->course->discount_price,
+                'item_id' => $cartItem->item_id,
+                'item_type' => $cartItem->item_type,
+                'price' => $cartItem->item->discount_price,
             ]);
         }
 
@@ -66,7 +67,7 @@ class UserOrderController extends Controller
     {
         $user = auth()->user();
 
-        $order = $user->orders()->with(['orderItems.course', 'payment.coupon'])->findOrFail($orderId);
+        $order = $user->orders()->with(['orderItems.item', 'payment.coupon'])->findOrFail($orderId);
 
         return inertia()->render('Student/Orders/Show', [
             'order' => $order,

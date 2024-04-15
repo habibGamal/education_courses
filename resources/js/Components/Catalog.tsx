@@ -1,10 +1,17 @@
 import React from "react";
 import SectionTitle from "./SectionTitle";
-import { Course } from "@/types";
+import { Course, Package } from "@/types";
 import CourseCard from "./CourseCard";
 import { useTranslate } from "@/Layouts/Config";
+import PackageCard from "./PackageCard";
 
-export default function Catalog({ courses }: { courses: Course[] }) {
+export default function Catalog({
+    packages,
+    courses,
+}: {
+    packages: Package[];
+    courses: Course[];
+}) {
     const t = useTranslate();
     return (
         <div className="overflow-hidden bg-white py-24 sm:py-32">
@@ -31,6 +38,9 @@ export default function Catalog({ courses }: { courses: Course[] }) {
                             )}
                         />
                         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 justify-items-center mt-16">
+                            {packages.map((pkg) => (
+                                <PackageCard key={pkg.id} pkg={pkg} />
+                            ))}
                             {courses.map((course) => (
                                 <CourseCard key={course.id} course={course} />
                             ))}

@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Models;
 
+use App\Enums\ItemType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class CartItem extends Model
 {
@@ -15,7 +18,8 @@ class CartItem extends Model
      */
     protected $fillable = [
         'cart_id',
-        'course_id',
+        'item_id',
+        'item_type',
     ];
 
     /**
@@ -32,5 +36,18 @@ class CartItem extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function item(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    static function loadPackages($items) {
+        $items->each(function ($item) {
+            if ($item->item_type === ItemType::Package->value) {
+                $item->item->load('courses');
+            }
+        });
     }
 }

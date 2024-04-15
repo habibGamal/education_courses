@@ -9,10 +9,10 @@ import { Button, Form, Input, Radio, Space, Typography } from "antd";
 
 export default function Checkout({ cart }: { cart: Cart }) {
     const total = cart.cart_items?.reduce((acc, item) => {
-        return acc + item.course?.discount_price!;
+        return acc + item.item?.discount_price!;
     }, 0);
     const subTotal = cart.cart_items?.reduce((acc, item) => {
-        return acc + item.course?.price!;
+        return acc + item.item?.price!;
     }, 0);
 
     const [form] = Form.useForm();

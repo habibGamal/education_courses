@@ -2,7 +2,7 @@ import { useTranslate } from "@/Layouts/Config";
 import React, { useState } from "react";
 import {
     VideoCameraOutlined,
-    FolderOpenOutlined,
+    BoxPlotOutlined,
     ShoppingOutlined,
     UserOutlined,
     HomeOutlined
@@ -46,6 +46,13 @@ export default function AdminSider() {
             </Link>,
             "courses",
             <VideoCameraOutlined />
+        ),
+        getItem(
+            <Link href={route("packages.index")}>
+                {t("Packages", "الباقات")}
+            </Link>,
+            "packages",
+            <BoxPlotOutlined />
         ),
         getItem(t("Orders", "الاشتراكات"), "orders", <ShoppingOutlined />, [
             getItem(

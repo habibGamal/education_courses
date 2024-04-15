@@ -19,12 +19,12 @@ class Cart extends Model
     // total attribute
     public function getTotalAttribute()
     {
-        return $this->cartItems->sum('course.price');
+        return $this->cartItems->sum('item.price');
     }
 
 
     public function getRequiredTotalAttribute()
     {
-        return $this->cartItems->sum('course.discount_price');
+        return $this->cartItems->sum('item.discount_price');
     }
 }

@@ -1,0 +1,1 @@
+import{j as t}from"./app-mLxcET_5.js";import{B as a}from"./index-Dbx42wUp.js";const e={pending:"processing",paid:"success",failed:"error"};function o({status:s}){return t.jsx(a,{status:e[s],text:s,className:"capitalize"})}export{o as P};

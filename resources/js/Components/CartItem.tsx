@@ -17,27 +17,27 @@ export default function CartItem({
     return (
         <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
             <img
-                src={imagePathResolver(item.course?.thumbnail!)}
+                src={imagePathResolver(item.item?.thumbnail!)}
                 alt="product-image"
                 className="w-full max-h-[150px] object-cover rounded-lg sm:w-40"
             />
             <div className="sm:ltr:ml-4 sm:rtl:mr-4 sm:flex sm:w-full sm:justify-between">
                 <div className="mt-5 sm:mt-0">
                     <h2 className="text-lg font-bold text-gray-900">
-                        {item.course?.title!}
+                        {item.item?.title!}
                     </h2>
                     <p className="mt-1 text-lg text-gray-700">
                         {t(
                             <>
-                                Price: {item.course?.discount_price} EGP{" "}
+                                Price: {item.item?.discount_price} EGP{" "}
                                 <span className="line-through text-sm">
-                                    {item.course?.price} EGP
+                                    {item.item?.price} EGP
                                 </span>
                             </>,
                             <>
-                                السعر : {item.course?.discount_price} جنيه{" "}
+                                السعر : {item.item?.discount_price} جنيه{" "}
                                 <span className="line-through text-sm">
-                                    {item.course?.price} جنيه
+                                    {item.item?.price} جنيه
                                 </span>
                             </>
                         )}

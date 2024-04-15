@@ -22,12 +22,12 @@ class AdminOrderController extends Controller
 
         $user = $order->load('user')->user;
 
-        $order->load('orderItems.course');
+        $courses = $order->loadCourses();
 
         $user->enrolledCourses()->createMany(
-            $order->orderItems->map(function ($orderItem) {
+            $courses->map(function ($course) {
                 return [
-                    'course_id' => $orderItem->course_id,
+                    'course_id' => $course->id,
                 ];
             })->toArray()
         );
@@ -91,7 +91,7 @@ class AdminOrderController extends Controller
 
     public function show(Order $order)
     {
-        $order->load(['orderItems.course', 'user', 'payment.coupon']);
+        $order->load(['orderItems.item', 'user', 'payment.coupon']);
 
         return inertia()->render('Admin/Orders/Show', [
             'order' => $order,

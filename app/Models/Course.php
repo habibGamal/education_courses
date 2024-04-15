@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Course extends Model
 {
@@ -41,17 +42,17 @@ class Course extends Model
     /**
      * Get the order items for the course.
      */
-    public function orderItems()
+    public function orderItems(): MorphMany
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->morphMany(OrderItem::class, 'item');
     }
 
     /**
      * Get the cart items for the course.
      */
-    public function cartItems()
+    public function cartItems(): MorphMany
     {
-        return $this->hasMany(CartItem::class);
+        return $this->morphMany(CartItem::class, 'item');
     }
 
     /**
@@ -60,5 +61,13 @@ class Course extends Model
     public function blocks()
     {
         return $this->hasMany(Block::class);
+    }
+
+    /**
+     * Get the packages for the course.
+     */
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class);
     }
 }

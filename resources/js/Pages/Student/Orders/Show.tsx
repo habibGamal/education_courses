@@ -5,13 +5,9 @@ import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
 import { useTranslate } from "@/Layouts/Config";
 import StudentLayout from "@/Layouts/StudentLayout";
 import { Order } from "@/types";
+import { ItemType } from "@/types/enums";
 import { Head, Link } from "@inertiajs/react";
-import {
-    Descriptions,
-    DescriptionsProps,
-    Image,
-    Table
-} from "antd";
+import { Descriptions, DescriptionsProps, Image, Table } from "antd";
 
 Show.layout = (page: any) => <StudentLayout children={page} />;
 export default function Show({ order }: { order: Order }) {
@@ -19,9 +15,10 @@ export default function Show({ order }: { order: Order }) {
     const t = useTranslate();
     const dataSource = order.order_items!.map((orderItem) => ({
         key: orderItem.id,
-        courseId: orderItem.course?.id,
-        courseName: orderItem.course?.title,
-        coursePrice: orderItem.course?.price,
+        itemId: orderItem.item?.id,
+        courseName: orderItem.item?.title,
+        coursePrice: orderItem.item?.price,
+        type: orderItem.item_type,
     }));
     const columns = [
         {
@@ -29,7 +26,13 @@ export default function Show({ order }: { order: Order }) {
             dataIndex: "courseName",
             key: "courseName",
             render: (text: string, record: any) => (
-                <Link href={route("courses.edit", record.courseId)}>
+                <Link
+                    href={
+                        record.type === ItemType.Course
+                            ? route("browse.courses.show", record.itemId)
+                            : route("browse.packages.show", record.itemId)
+                    }
+                >
                     {text}
                 </Link>
             ),
@@ -98,7 +101,12 @@ export default function Show({ order }: { order: Order }) {
         {
             key: "10",
             label: t("Screenshot", "صورة الدفع"),
-            children: <Image width={200} src={imagePathResolver(order.payment?.screenshot!)} />,
+            children: (
+                <Image
+                    width={200}
+                    src={imagePathResolver(order.payment?.screenshot!)}
+                />
+            ),
         },
     ];
 

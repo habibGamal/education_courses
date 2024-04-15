@@ -1,5 +1,5 @@
 import { Link, Head } from "@inertiajs/react";
-import { Course, PageProps } from "@/types";
+import { Course, Package, PageProps } from "@/types";
 import Navbar from "@/Components/Navbar";
 import { Badge, Typography } from "antd";
 import CourseCard from "@/Components/CourseCard";
@@ -55,10 +55,12 @@ export default function Welcome({
     laravelVersion,
     phpVersion,
     courses,
+    packages,
 }: PageProps<{
     laravelVersion: string;
     phpVersion: string;
     courses: Course[];
+    packages: Package[];
 }>) {
     const t = useTranslate();
     return (
@@ -130,7 +132,7 @@ export default function Welcome({
                     </div>
                 </div>
             </div>
-            <Catalog courses={courses} />
+            <Catalog courses={courses} packages={packages} />
             <Features />
 
             <div className="overflow-hidden py-24 sm:py-32">
@@ -168,7 +170,10 @@ export default function Welcome({
                                             alt="Gallery image"
                                         />
                                         <div className="strong text-3xl w-8 h-8 grid place-items-center space-grotesk absolute rounded-full bg-white top-8 right-8">
-                                            <Badge status="processing" className="line-h-0" />
+                                            <Badge
+                                                status="processing"
+                                                className="line-h-0"
+                                            />
                                         </div>
                                         <Typography.Paragraph className="text-lg tajawal rtl xl:text-xl  mt-6">
                                             • {item.text}

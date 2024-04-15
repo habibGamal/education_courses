@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class OrderItem extends Model
 {
@@ -15,7 +17,8 @@ class OrderItem extends Model
      */
     protected $fillable = [
         'order_id',
-        'course_id',
+        'item_id',
+        'item_type',
         'price',
     ];
 
@@ -33,5 +36,10 @@ class OrderItem extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function item(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

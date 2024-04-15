@@ -22,9 +22,9 @@ export default function Show({ order }: { order: Order }) {
     const t = useTranslate();
     const dataSource = order.order_items!.map((orderItem) => ({
         key: orderItem.id,
-        courseId: orderItem.course?.id,
-        courseName: orderItem.course?.title,
-        coursePrice: orderItem.course?.price,
+        courseId: orderItem.item?.id,
+        courseName: orderItem.item?.title,
+        coursePrice: orderItem.item?.price,
     }));
     const columns = [
         {

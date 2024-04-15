@@ -1,13 +1,11 @@
-import React from "react";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import HeaderTitle from "@/Components/HeaderTitle";
-import { useTranslate } from "@/Layouts/Config";
-import { App, Button, Modal, Table } from "antd";
-import { Head, router } from "@inertiajs/react";
-import { Course, PageProps } from "@/types";
-import { EditOutlined, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import imagePathResolver from "@/Helpers/imagePathResolver";
 import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
+import { useTranslate } from "@/Layouts/Config";
+import { Course, PageProps } from "@/types";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Head, router } from "@inertiajs/react";
+import { App, Button, Table } from "antd";
 
 type Props = {
     courses: Course[];

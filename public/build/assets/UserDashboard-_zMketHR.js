@@ -1,0 +1,1 @@
+import{u as t,j as s}from"./app-mLxcET_5.js";import{H as e}from"./HeaderTitle-JSnmoyUL.js";import{u as a}from"./useHeaderTitle-6i0nhXwp.js";import{S as o}from"./StudentLayout-GVe7p4tZ.js";i.layout=r=>s.jsx(o,{children:r});function i(){const r=t();return a(s.jsx(e,{title:r("User Dashboard","لوحة المستخدم")})),s.jsx("div",{children:"User Dashboard"})}export{i as default};

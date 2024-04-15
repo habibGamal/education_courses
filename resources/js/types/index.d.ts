@@ -1,3 +1,5 @@
+
+
 export interface User {
     id: number;
     name: string;
@@ -43,6 +45,19 @@ export interface Course {
     blocks?: Block[];
     keywords?: string;
 }
+
+export interface Package {
+    id: number;
+    title: string;
+    thumbnail: string;
+    description: string;
+    price: number;
+    discount_price: number;
+    courses?: Course[];
+    courses_count?: number;
+}
+
+export type Item = Package | Course;
 
 export interface Block {
     id: number;
@@ -96,20 +111,21 @@ interface OrderItem {
     id: number;
     price: number;
     order_id: number;
-    course_id: number;
+    item_id: number;
+    item_type: string;
     created_at: string;
     updated_at: string;
-    course?: Course;
+    item?: Item;
 }
-
 
 interface CartItem {
     id: number;
     cart_id: number;
-    course_id: number;
+    item_id: number;
+    item_type: string;
     created_at: string;
     updated_at: string;
-    course?: Course;
+    item?: Item;
 }
 
 interface Cart {

@@ -1,12 +1,18 @@
 import Catalog from "@/Components/Catalog";
 import { useTranslate } from "@/Layouts/Config";
 import HomeLayout from "@/Layouts/HomeLayout";
-import { Course } from "@/types";
+import { Course, Package } from "@/types";
 import { Head } from "@inertiajs/react";
 import { Typography } from "antd";
 import React from "react";
 
-export default function Index({ courses }: { courses: Course[] }) {
+export default function Index({
+    courses,
+    packages,
+}: {
+    courses: Course[];
+    packages: Package[];
+}) {
     const t = useTranslate();
     return (
         <>
@@ -16,7 +22,7 @@ export default function Index({ courses }: { courses: Course[] }) {
                     {t("Courses", "الدورات")}
                 </Typography.Title>
             </div>
-            <Catalog courses={courses} />
+            <Catalog courses={courses} packages={packages} />
         </>
     );
 }

@@ -3,6 +3,7 @@ import useModal from "@/Hooks/useModal";
 import { useTranslate } from "@/Layouts/Config";
 import HomeLayout from "@/Layouts/HomeLayout";
 import { Course, Resource } from "@/types";
+import { ItemType } from "@/types/enums";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import {
     AcademicCapIcon,
@@ -216,7 +217,8 @@ export default function Show({ course }: { course: Course }) {
                             icon={<ShoppingCartOutlined />}
                             onClick={() =>
                                 router.post(route("cart.addCartItem"), {
-                                    course_id: course.id,
+                                    item_id: course.id,
+                                    item_type: ItemType.Course,
                                 })
                             }
                         >
