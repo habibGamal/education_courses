@@ -50,13 +50,19 @@ export default function Index({ students }: { students: Paginate<User> }) {
     useHeaderTitle(<HeaderTitle title={t("Students", "الطلاب")} />);
     return (
         <>
-            <Head title="Orders" />
+            <Head title="Students" />
+            <Button
+                className="ltr:ml-auto rtl:mr-auto block mb-4"
+                type="primary"
+                onClick={() => router.get(route("admin.user.create"))}
+            >
+                {t("Create User Account", "انشاء مستخدم جديد")}
+            </Button>
             <Search
                 placeholder={t("Search Email", "بحث بالبريد")}
                 onSearch={onSearch}
                 className="w-full mb-6"
             />
-
             <Table
                 className="shadow"
                 dataSource={dataSource}

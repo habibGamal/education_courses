@@ -1,23 +1,27 @@
-import React from "react";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import HeaderTitle from "@/Components/HeaderTitle";
+import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
+import useModal from "@/Hooks/useModal";
+import { useTranslate } from "@/Layouts/Config";
+import { Course, User } from "@/types";
+import { Head, Link, router } from "@inertiajs/react";
 import {
-    Badge,
     Button,
+    Checkbox,
     Descriptions,
     DescriptionsProps,
-    Image,
+    Form,
+    Modal,
     Popconfirm,
     Table,
 } from "antd";
-import { Head, Link, router } from "@inertiajs/react";
-import { useTranslate } from "@/Layouts/Config";
-import { Order, User } from "@/types";
-import PaymentStatusBadge from "@/Components/PaymentStatusBadge";
-import { useHeaderTitle } from "@/Hooks/useHeaderTitle";
-import { render } from "react-dom";
 
-export default function Show({ student }: { student: User }) {
+export default function Show({
+    student,
+    courses,
+}: {
+    student: User;
+    courses: Course[];
+}) {
     console.log(student);
     const t = useTranslate();
     const dataSource = student.enrolled_courses!.map((enrolled) => ({
@@ -93,9 +97,26 @@ export default function Show({ student }: { student: User }) {
     ];
 
     useHeaderTitle(<HeaderTitle title={t("Students", "الطلاب")} />);
+
+    const initCourses = student.enrolled_courses!.map(
+        (enrolled) => enrolled.course?.id
+    );
+    const options = courses.map((course) => ({
+        label: course.title,
+        value: course.id,
+    }));
+    console.log(initCourses);
+
+    const modal = useModal();
+
+    const [form] = Form.useForm();
+    const onFinish = (values: any) => {
+        router.post(route("admin.students.addToCourse", student.id), values);
+        modal.closeModal();
+    };
     return (
         <>
-            <Head title="Orders" />
+            <Head title="Students" />
 
             <Descriptions
                 title={t("User Info", "بيانات المستخدم")}
@@ -103,7 +124,42 @@ export default function Show({ student }: { student: User }) {
                 items={userInfo}
                 className="mb-8"
             />
+            <Button
+                className="ltr:ml-auto rtl:mr-auto block mb-4"
+                type="primary"
+                onClick={() => modal.showModal()}
+            >
+                {t("Add user to course", "اضافة المستخدم لدورة")}
+            </Button>
+            <Modal
+                {...modal}
+                footer={null}
+                title={t("Add user to course", "اضافة المستخدم لدورة")}
+                destroyOnClose
+            >
+                <Form
+                    name="add_user_to_course"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                    onFinish={onFinish}
+                    labelAlign="left"
+                    form={form}
+                    initialValues={{ courses: initCourses }}
+                >
+                    <Form.Item label={t("Courses", "الكورسات")} name="courses">
+                        <Checkbox.Group
+                            options={options}
+                            className="w-full grid grid-cols-1 gap-4"
+                        />
+                    </Form.Item>
 
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                            {t("Save", "حفظ")}
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
             <Table
                 className="shadow"
                 dataSource={dataSource}

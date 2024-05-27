@@ -21,9 +21,11 @@ class StudentController extends Controller
     public function show(User $user)
     {
         $user->load('enrolledCourses.course:id,title');
+        $courses = Course::all();
 
         return inertia()->render('Admin/Students/Show', [
             'student' => $user,
+            'courses' => $courses
         ]);
     }
 
@@ -31,5 +33,28 @@ class StudentController extends Controller
     {
         $user->enrolledCourses()->where('course_id', $courseId)->delete();
         return redirect()->back()->with('success', ['User blocked from course', 'تم حظر المستخدم من الدورة']);
+    }
+
+    public function addUserToCourse(User $user, Request $request)
+    {
+        $request->validate([
+            'courses' => 'required|array',
+        ]);
+        $user->load('enrolledCourses');
+        // filter out courses that the user is already enrolled in
+        $courses = $user->enrolledCourses->pluck('course_id')->toArray();
+        $courses = array_diff($request->courses, $courses);
+        $user->enrolledCourses()->createMany(
+            collect($courses)->map(function ($courseId) {
+                return ['course_id' => $courseId];
+            })->toArray()
+        );
+
+        return redirect()->back()->with('success', ['Saved', 'تم الحفظ']);
+    }
+
+    public function createStudent()
+    {
+        return inertia()->render('Admin/Students/Create');
     }
 }

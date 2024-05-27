@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CourseController;
@@ -131,8 +132,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
         // orders routes
         Route::name('admin.')->group(function () {
             Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+            Route::get('/students/create', [StudentController::class, 'createStudent'])->name('user.create');
             Route::get('/students/{user}', [StudentController::class, 'show'])->name('students.show');
             Route::post('/students/{user}/block-from-course/{course}', [StudentController::class, 'blockUserFromCourse'])->name('students.blockFromCourse');
+            Route::post('/students/{user}/add-to-courses', [StudentController::class, 'addUserToCourse'])->name('students.addToCourse');
+            Route::post('/user/factory', [RegisteredUserController::class, 'factory'])->name('user.factory');
             Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
             Route::get('/orders/search', [AdminOrderController::class, 'search'])->name('orders.search');
             Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');

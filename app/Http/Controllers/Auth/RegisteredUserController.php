@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'country' => 'required|string|max:255',
             'city' => 'required|string|max:255',
@@ -58,5 +58,29 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function factory(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make('We53758691'),
+            'country' => '-',
+            'city' => '-',
+            'phone' => '-',
+            'role' => UserRole::User,
+        ]);
+
+        $user->cart()->create();
+
+        event(new Registered($user));
+
+        return redirect()->route('admin.students.show', ['user' => $user->id]);
     }
 }
