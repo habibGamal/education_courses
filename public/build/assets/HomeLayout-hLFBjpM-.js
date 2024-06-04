@@ -1,0 +1,1 @@
+import{J as e,j as s,a as r,b9 as t}from"./app-ROvF5bcD.js";import{N as o}from"./Navbar-IyBAv6qV.js";function n({children:a}){return e(),s.jsxs(s.Fragment,{children:[s.jsx(r,{title:"Welcome"}),s.jsx("div",{className:"bg-secondary-800",children:s.jsx(o,{})}),a,s.jsx(t,{})]})}export{n as H};

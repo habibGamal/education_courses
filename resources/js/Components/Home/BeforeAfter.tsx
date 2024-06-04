@@ -48,6 +48,14 @@ const data = [
         beforeImg: "/assets/before_and_after/11a.jpg",
         afterImg: "/assets/before_and_after/11b.jpg",
     },
+    {
+        beforeImg: "/assets/before_and_after/12a.jpg",
+        afterImg: "/assets/before_and_after/12b.jpg",
+    },
+    {
+        beforeImg: "/assets/before_and_after/13a.jpg",
+        afterImg: "/assets/before_and_after/13b.jpg",
+    },
 ];
 export default function BeforeAfter() {
     const t = useTranslate();

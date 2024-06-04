@@ -1,1 +1,0 @@
-import{r as s}from"./app-u-ofZZ6a.js";const a=()=>{const[t,o]=s.useState(!1),[n,e]=s.useState(!1);return{open:t,closeModal:()=>o(!1),confirmLoading:n,setConfirmLoading:e,showModal:()=>{o(!0)},onOK:()=>{e(!0),setTimeout(()=>{o(!1),e(!1)},2e3)},onCancel:()=>{console.log("Clicked cancel button"),o(!1)}}},f=a;export{f as u};
